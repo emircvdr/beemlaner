@@ -27,6 +27,7 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
+import { Logout } from "@/api/authApi"
 
 export function NavUser({
     user,
@@ -104,7 +105,7 @@ export function NavUser({
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => Logout()}>
                             <LogOut />
                             Log out
                         </DropdownMenuItem>

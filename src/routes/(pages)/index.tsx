@@ -1,10 +1,12 @@
 
+import { GetUser, GetUserSession } from '@/api/authApi'
 import { Chart } from '@/components/chart'
 // import { ToggleThemeButton } from '@/components/toggle-theme-button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { FolderIcon, ListIcon, TrendingDownIcon, TrendingUpIcon, UsersIcon } from 'lucide-react'
+import { useEffect } from 'react'
 
 export const Route = createFileRoute('/(pages)/')({
     component: Index,
@@ -65,6 +67,18 @@ const cards: Record<string, Card> = {
 }
 
 function Index() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        GetUserSession().then((session) => {
+            if (!session.session) {
+                navigate({ to: "/login" });
+            } else {
+                GetUser().then((user) => {
+                    console.log(user);
+                })
+            }
+        })
+    }, []);
     return (
         <div className="w-full h-full">
             <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
