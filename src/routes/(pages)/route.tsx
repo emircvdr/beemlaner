@@ -6,13 +6,13 @@ import { Outlet, createFileRoute, } from '@tanstack/react-router'
 export const Route = createFileRoute('/(pages)')({
     component: AppLayoutComponent,
 
+
 })
 
 function AppLayoutComponent() {
-
     return (
         <div className="flex w-screen h-screen overflow-hidden bg-sidebar">
-            <AppSidebar variant='inset' />
+            <AppSidebar />
             <SidebarInset>
                 <SiteHeader />
                 <div className='w-full h-full bg-background p-2'>

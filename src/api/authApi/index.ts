@@ -67,3 +67,30 @@ export async function GetUserSession() {
 
   return data;
 }
+
+export async function ResetPasswordUser(form: { email: string }) {
+  const { data, error } = await supabase.auth.resetPasswordForEmail(
+    form.email,
+    {
+      redirectTo: `${import.meta.env.VITE_APP_URL}/reset-password`,
+    }
+  );
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
+
+export async function UpdatePassword(form: { password: string }) {
+  const { data, error } = await supabase.auth.updateUser({
+    password: form.password,
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}

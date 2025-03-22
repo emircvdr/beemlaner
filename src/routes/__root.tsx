@@ -11,12 +11,12 @@ export const Route = createRootRoute({
     ),
     beforeLoad: async ({ location }) => {
         const session = await GetUserSession();
-        if (!session.session && location.pathname !== '/login') {
+        const publicPaths = ['/login', '/reset-password', '/register'];
+        if (!session.session && !publicPaths.includes(location.pathname)) {
             throw redirect({
                 to: '/login',
-
             });
-        } else if (session.session && (location.pathname == '/login' || location.pathname == '/register')) {
+        } else if (session.session && (location.pathname == '/login' || location.pathname == '/register' || location.pathname == '/reset-password')) {
             throw redirect({
                 to: '/',
             });

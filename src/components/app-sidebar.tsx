@@ -41,9 +41,9 @@ const user = {
     avatar: "/avatars/shadcn.jpg",
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar() {
     return (
-        <Sidebar collapsible="offcanvas" {...props}>
+        <Sidebar collapsible="offcanvas" variant="inset">
             <SidebarHeader>
                 <WorkspacesSwitcher workspaces={workspaces} />
             </SidebarHeader>
