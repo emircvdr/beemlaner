@@ -3,9 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useState } from 'react';
-import { Github, } from 'lucide-react';
+import { ArrowDown, Github, } from 'lucide-react';
 import GoogleIcon from "../../../assets/GoogleIcon.svg"
+import AppleIcon from "../../../assets/AppleIcon.svg"
+import AppLogo from "../../../assets/AppLogo.svg"
 import { Register } from '@/api/authApi';
+import { Separator } from '@/components/ui/separator';
 
 export const Route = createFileRoute('/(auth)/register/')({
     component: RouteComponent,
@@ -38,11 +41,12 @@ function RouteComponent() {
         <div className='w-full  flex items-center justify-center'>
             <Card className="w-full max-w-[450px] h-auto border-none shadow-none">
                 <CardHeader>
+                    <img src={AppLogo} alt="App Logo" className="w-15 h-15 mx-auto mb-5  " />
                     <CardTitle className="text-center text-2xl font-newCustom">Join Us Today!</CardTitle>
                     <CardDescription className="text-center text-[14px] font-newCustom">
                         By signing up, you acknowledge that you have read and accepted our{" "}
-                        <a href="" className="text-blue-600">Privacy Policy</a> and{" "}
-                        <a href="" className="text-blue-600">Terms of Service</a>.
+                        <a href="" className="text-[#8044d3] ">Privacy Policy</a> and{" "}
+                        <a href="" className="text-[#8044d3] ">Terms of Service</a>.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -68,25 +72,31 @@ function RouteComponent() {
                             value={form.password}
                             onChange={handleChange}
                         />
-                        <Button size="lg" className="w-full" variant="default">Register</Button>
+                        <Button size="lg" className="w-full border" variant="ghost">Register</Button>
                         {error && <p className="text-red-500">{error}</p>}
                     </form>
                 </CardContent>
+                <div className="flex items-center justify-center w-full gap-2 p-2">
+                    <Separator orientation="horizontal" className="flex-1" />
+                    <ArrowDown size={15} color="#c4c3c3d5" />
+                    <Separator orientation="horizontal" className="flex-1" />
+                </div>
+                <div className='flex justify-evenly w-full p-2'>
+                    <Button variant="ghost" size="icon" className="p-2 w-16 h-10 border bg-black/20 dark:bg-transparent">
+                        <img src={GoogleIcon} alt="Google" className="w-6 h-6" />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="p-2 w-16 h-10 border bg-black/20 dark:bg-transparent">
+                        <Github size={20} />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="p-2 w-16 h-10 border bg-black/20 dark:bg-transparent">
+                        <img src={AppleIcon} alt="Apple" className="w-6 h-6" />
+                    </Button>
+                </div>
 
                 <div className="flex flex-col gap-5 items-center mt-5 w-full p-3">
-                    <Button variant="secondary" className="w-full max-w-[300px]">
-                        <img src={GoogleIcon} alt="Google" className="w-5 h-5" />
-                        &nbsp;
-                        <p className="font-bold">Register with Google</p>
-                    </Button>
-                    <Button variant="secondary" className="w-full max-w-[300px] hover:">
-                        <Github />
-                        &nbsp;
-                        <p className="font-bold">Register with Github</p>
-                    </Button>
                     <p className="text-sm font-newCustom">
                         Already have an account?{" "}
-                        <a href="/login" className="text-blue-600">Login</a>
+                        <a href="/login" className="text-[#8044d3] underline">Login</a>
                     </p>
                 </div>
             </Card>

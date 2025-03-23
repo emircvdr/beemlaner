@@ -8,6 +8,8 @@ interface User {
     fullname: string
     email: string
     sub: string
+    full_name: string
+    avatar_url?: string
 }
 
 export const Route = createFileRoute('/(pages)')({

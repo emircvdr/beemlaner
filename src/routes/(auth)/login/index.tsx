@@ -3,11 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import GoogleIcon from "../../../assets/GoogleIcon.svg"
-import { BadgeCheck, BadgeX, Github } from 'lucide-react';
+import AppleIcon from "../../../assets/AppleIcon.svg"
+import AppLogo from "../../../assets/AppLogo.svg"
+import { ArrowDown, BadgeCheck, BadgeX, Github } from 'lucide-react';
 import { useState } from 'react';
-import { Login } from '@/api/authApi';
+import { Login, signInWithGithub } from '@/api/authApi';
 import { toast } from 'sonner';
 import ResetPassword from '@/components/resetPassword';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Separator } from '@/components/ui/separator';
 
 
 export const Route = createFileRoute('/(auth)/login/')({
@@ -79,20 +83,30 @@ function RouteComponent() {
         }
     };
 
+    const handleLogInWithGithub = async () => {
+        try {
+            await signInWithGithub();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <div className='w-full  flex items-center justify-center'>
             {
                 !isResetPassword ? (
                     <ResetPassword />
                 ) : (
-                    <Card className="w-full max-w-[450px] h-auto py-5 border-none shadow-none">
-                        <CardHeader>
+                    <Card className="w-full max-w-[450px] h-auto py-5 border-none shadow-lg">
+                        <CardHeader className='p-2'>
+                            <img src={AppLogo} alt="App Logo" className="w-15 h-15 mx-auto mb-5  " />
                             <CardTitle className="text-center text-2xl font-newCustom">Welcome Back!</CardTitle>
                             <CardDescription className="text-center font-newCustom">
                                 Please enter your credentials to access your account.
                             </CardDescription>
                         </CardHeader>
-                        <CardContent>
+
+                        <CardContent className='p'>
                             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                                 <Input
                                     type="email"
@@ -108,32 +122,50 @@ function RouteComponent() {
                                     value={form.password}
                                     onChange={handleChange}
                                 />
-
-                                <Button size="lg" className="w-full" variant="default">Login</Button>
+                                <div className='flex items-center justify-between flex-col gap-2'>
+                                    <Button size="lg" className="w-full border" variant="ghost">Login</Button>
+                                    <div className='flex items-center justify-between w-full mt-2'>
+                                        <div className="flex items-center space-x-2">
+                                            <Checkbox id="terms" />
+                                            <label
+                                                htmlFor="terms"
+                                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                            >
+                                                Remember me
+                                            </label>
+                                        </div>
+                                        <p className="text-xs font-newCustom">
+                                            <span className="underline cursor-pointer" onClick={() => setIsResetPassword(false)}>
+                                                Forgot Password?
+                                            </span>{" "}
+                                        </p>
+                                    </div>
+                                </div>
                                 {error && <p className="text-red-500">{error}</p>}
                             </form>
                         </CardContent>
-                        <div className="flex flex-col gap-5 items-center mt-5 w-full p-3">
-                            <Button variant="secondary" className="w-full max-w-[300px]">
-                                <img src={GoogleIcon} alt="Google" className="w-5 h-5" />
-                                &nbsp;
-                                <p className="font-bold">Login with Google</p>
+                        <div className="flex items-center justify-center w-full gap-2 p-2">
+                            <Separator orientation="horizontal" className="flex-1" />
+                            <ArrowDown size={15} color="#c4c3c3d5" />
+                            <Separator orientation="horizontal" className="flex-1" />
+                        </div>
+                        <div className='flex justify-evenly w-full p-2'>
+                            <Button variant="ghost" size="icon" className="p-2 w-16 h-10 border" >
+                                <img src={GoogleIcon} alt="Google" className="w-6 h-6" />
                             </Button>
-                            <Button variant="secondary" className="w-full max-w-[300px]">
+                            <Button variant="ghost" size="icon" className="p-2 w-16 h-10 border" onClick={handleLogInWithGithub}>
                                 <Github size={20} />
-                                &nbsp;
-                                <p className="font-bold">Login with Github</p>
                             </Button>
+                            <Button variant="ghost" size="icon" className="p-2 w-16 h-10 border">
+                                <img src={AppleIcon} alt="Apple" className="w-6 h-6" />
+                            </Button>
+                        </div>
+                        <div className="flex flex-col gap-5 items-center  w-full p-3">
                             <p className="text-sm font-newCustom">
                                 Don&apos;t have an account?{" "}
-                                <a href="/register" className="text-blue-600">Register</a>
+                                <a href="/register" className="text-[#8044d3] underline">Register</a>
                             </p>
-                            <p className="text-xs font-newCustom">
-                                <span className="">
-                                    Forgot Password?
-                                </span>{" "}
-                                <a onClick={() => setIsResetPassword(false)} className="text-blue-600">Reset Password</a>
-                            </p>
+
                         </div>
                     </Card>
                 )

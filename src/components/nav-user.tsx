@@ -33,6 +33,8 @@ interface User {
         fullname: string
         email: string
         sub: string
+        full_name: string
+        avatar_url?: string
     }
 }
 
@@ -53,10 +55,16 @@ export function NavUser(user: User) {
                             size="lg"
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                         >
-                            <BoringAvatar name={user.user.sub} variant="marble" colors={["#a8bcbd", "#fcdcb3", "#f88d87", "#d65981", "#823772"]} className="size-5!" />
+                            {
+                                user.user.avatar_url ? (
+                                    <img src={user.user.avatar_url} alt="avatar" className="size-8! rounded-full" />
+                                ) : (
+                                    <BoringAvatar name={user.user.sub} variant="marble" colors={["#a8bcbd", "#fcdcb3", "#f88d87", "#d65981", "#823772"]} size={30} />
+                                )
+                            }
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate ">{user.user.fullname}</span>
-                                <span className="truncate text-[10px]">{user.user.email}</span>
+                                <span className="truncate ">{user.user.fullname || user.user.full_name}</span>
+                                <span className="truncate text-[10px]">{user.user.email || ''}</span>
                             </div>
                             <ChevronsUpDown className="ml-auto size-4" />
                         </SidebarMenuButton>
@@ -69,7 +77,13 @@ export function NavUser(user: User) {
                     >
                         <DropdownMenuLabel className="p-0 font-normal">
                             <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                                <BoringAvatar name={user.user.sub} variant="marble" colors={["#a8bcbd", "#fcdcb3", "#f88d87", "#d65981", "#823772"]} size={30} />
+                                {
+                                    user.user.avatar_url ? (
+                                        <img src={user.user.avatar_url} alt="avatar" className="size-8! rounded-full" />
+                                    ) : (
+                                        <BoringAvatar name={user.user.sub} variant="marble" colors={["#a8bcbd", "#fcdcb3", "#f88d87", "#d65981", "#823772"]} size={30} />
+                                    )
+                                }
                                 <div className="grid flex-1 text-left text-sm leading-tight">
                                     <span className="truncate ">{user.user.fullname}</span>
                                     <span className="truncate text-xs">{user.user.email}</span>
