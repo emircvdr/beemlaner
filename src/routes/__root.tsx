@@ -1,4 +1,5 @@
 import { GetUserSession } from '@/api/authApi';
+import NotFound from '@/components/notFound';
 import { createRootRoute, Outlet, redirect } from '@tanstack/react-router'
 // import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 
@@ -21,5 +22,8 @@ export const Route = createRootRoute({
                 to: '/',
             });
         }
+    },
+    notFoundComponent: () => {
+        return <NotFound />
     }
 })

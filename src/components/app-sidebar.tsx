@@ -34,14 +34,14 @@ const workspaces = [
     },
 ]
 
-
-const user = {
-    name: "Emir Cavdar",
-    email: "emir@cavdar.com",
-    avatar: "/avatars/shadcn.jpg",
+interface User {
+    fullname: string
+    email: string
+    sub: string
 }
 
-export function AppSidebar() {
+
+export function AppSidebar({ user }: { user: User }) {
     return (
         <Sidebar collapsible="offcanvas" variant="inset">
             <SidebarHeader>

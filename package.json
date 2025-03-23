@@ -20,6 +20,7 @@
     "@supabase/supabase-js": "^2.49.1",
     "@tailwindcss/vite": "^4.0.15",
     "@tanstack/react-router": "^1.114.27",
+    "boring-avatars": "^1.11.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.7",

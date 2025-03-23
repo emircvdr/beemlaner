@@ -10,163 +10,163 @@
 
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as pagesRouteImport } from "./routes/(pages)/route";
-import { Route as pagesIndexImport } from "./routes/(pages)/index";
-import { Route as pagesProfileIndexImport } from "./routes/(pages)/profile/index";
-import { Route as authResetPasswordIndexImport } from "./routes/(auth)/reset-password/index";
-import { Route as authRegisterIndexImport } from "./routes/(auth)/register/index";
-import { Route as authLoginIndexImport } from "./routes/(auth)/login/index";
+import { Route as rootRoute } from './routes/__root'
+import { Route as pagesRouteImport } from './routes/(pages)/route'
+import { Route as pagesIndexImport } from './routes/(pages)/index'
+import { Route as pagesProfileIndexImport } from './routes/(pages)/profile/index'
+import { Route as authResetPasswordIndexImport } from './routes/(auth)/reset-password/index'
+import { Route as authRegisterIndexImport } from './routes/(auth)/register/index'
+import { Route as authLoginIndexImport } from './routes/(auth)/login/index'
 
 // Create/Update Routes
 
 const pagesRouteRoute = pagesRouteImport.update({
-  id: "/(pages)",
+  id: '/(pages)',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const pagesIndexRoute = pagesIndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => pagesRouteRoute,
-} as any);
+} as any)
 
 const pagesProfileIndexRoute = pagesProfileIndexImport.update({
-  id: "/profile/",
-  path: "/profile/",
+  id: '/profile/',
+  path: '/profile/',
   getParentRoute: () => pagesRouteRoute,
-} as any);
+} as any)
 
 const authResetPasswordIndexRoute = authResetPasswordIndexImport.update({
-  id: "/(auth)/reset-password/",
-  path: "/reset-password/",
+  id: '/(auth)/reset-password/',
+  path: '/reset-password/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const authRegisterIndexRoute = authRegisterIndexImport.update({
-  id: "/(auth)/register/",
-  path: "/register/",
+  id: '/(auth)/register/',
+  path: '/register/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const authLoginIndexRoute = authLoginIndexImport.update({
-  id: "/(auth)/login/",
-  path: "/login/",
+  id: '/(auth)/login/',
+  path: '/login/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/(pages)": {
-      id: "/(pages)";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof pagesRouteImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/(pages)/": {
-      id: "/(pages)/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof pagesIndexImport;
-      parentRoute: typeof pagesRouteImport;
-    };
-    "/(auth)/login/": {
-      id: "/(auth)/login/";
-      path: "/login";
-      fullPath: "/login";
-      preLoaderRoute: typeof authLoginIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/(auth)/register/": {
-      id: "/(auth)/register/";
-      path: "/register";
-      fullPath: "/register";
-      preLoaderRoute: typeof authRegisterIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/(auth)/reset-password/": {
-      id: "/(auth)/reset-password/";
-      path: "/reset-password";
-      fullPath: "/reset-password";
-      preLoaderRoute: typeof authResetPasswordIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/(pages)/profile/": {
-      id: "/(pages)/profile/";
-      path: "/profile";
-      fullPath: "/profile";
-      preLoaderRoute: typeof pagesProfileIndexImport;
-      parentRoute: typeof pagesRouteImport;
-    };
+    '/(pages)': {
+      id: '/(pages)'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof pagesRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/(pages)/': {
+      id: '/(pages)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof pagesIndexImport
+      parentRoute: typeof pagesRouteImport
+    }
+    '/(auth)/login/': {
+      id: '/(auth)/login/'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/(auth)/register/': {
+      id: '/(auth)/register/'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof authRegisterIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/(auth)/reset-password/': {
+      id: '/(auth)/reset-password/'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof authResetPasswordIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/(pages)/profile/': {
+      id: '/(pages)/profile/'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof pagesProfileIndexImport
+      parentRoute: typeof pagesRouteImport
+    }
   }
 }
 
 // Create and export the route tree
 
 interface pagesRouteRouteChildren {
-  pagesIndexRoute: typeof pagesIndexRoute;
-  pagesProfileIndexRoute: typeof pagesProfileIndexRoute;
+  pagesIndexRoute: typeof pagesIndexRoute
+  pagesProfileIndexRoute: typeof pagesProfileIndexRoute
 }
 
 const pagesRouteRouteChildren: pagesRouteRouteChildren = {
   pagesIndexRoute: pagesIndexRoute,
   pagesProfileIndexRoute: pagesProfileIndexRoute,
-};
+}
 
 const pagesRouteRouteWithChildren = pagesRouteRoute._addFileChildren(
-  pagesRouteRouteChildren
-);
+  pagesRouteRouteChildren,
+)
 
 export interface FileRoutesByFullPath {
-  "/": typeof pagesIndexRoute;
-  "/login": typeof authLoginIndexRoute;
-  "/register": typeof authRegisterIndexRoute;
-  "/reset-password": typeof authResetPasswordIndexRoute;
-  "/profile": typeof pagesProfileIndexRoute;
+  '/': typeof pagesIndexRoute
+  '/login': typeof authLoginIndexRoute
+  '/register': typeof authRegisterIndexRoute
+  '/reset-password': typeof authResetPasswordIndexRoute
+  '/profile': typeof pagesProfileIndexRoute
 }
 
 export interface FileRoutesByTo {
-  "/": typeof pagesIndexRoute;
-  "/login": typeof authLoginIndexRoute;
-  "/register": typeof authRegisterIndexRoute;
-  "/reset-password": typeof authResetPasswordIndexRoute;
-  "/profile": typeof pagesProfileIndexRoute;
+  '/': typeof pagesIndexRoute
+  '/login': typeof authLoginIndexRoute
+  '/register': typeof authRegisterIndexRoute
+  '/reset-password': typeof authResetPasswordIndexRoute
+  '/profile': typeof pagesProfileIndexRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  "/(pages)": typeof pagesRouteRouteWithChildren;
-  "/(pages)/": typeof pagesIndexRoute;
-  "/(auth)/login/": typeof authLoginIndexRoute;
-  "/(auth)/register/": typeof authRegisterIndexRoute;
-  "/(auth)/reset-password/": typeof authResetPasswordIndexRoute;
-  "/(pages)/profile/": typeof pagesProfileIndexRoute;
+  __root__: typeof rootRoute
+  '/(pages)': typeof pagesRouteRouteWithChildren
+  '/(pages)/': typeof pagesIndexRoute
+  '/(auth)/login/': typeof authLoginIndexRoute
+  '/(auth)/register/': typeof authRegisterIndexRoute
+  '/(auth)/reset-password/': typeof authResetPasswordIndexRoute
+  '/(pages)/profile/': typeof pagesProfileIndexRoute
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "/" | "/login" | "/register" | "/reset-password" | "/profile";
-  fileRoutesByTo: FileRoutesByTo;
-  to: "/" | "/login" | "/register" | "/reset-password" | "/profile";
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/login' | '/register' | '/reset-password' | '/profile'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/login' | '/register' | '/reset-password' | '/profile'
   id:
-    | "__root__"
-    | "/(pages)"
-    | "/(pages)/"
-    | "/(auth)/login/"
-    | "/(auth)/register/"
-    | "/(auth)/reset-password/"
-    | "/(pages)/profile/";
-  fileRoutesById: FileRoutesById;
+    | '__root__'
+    | '/(pages)'
+    | '/(pages)/'
+    | '/(auth)/login/'
+    | '/(auth)/register/'
+    | '/(auth)/reset-password/'
+    | '/(pages)/profile/'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  pagesRouteRoute: typeof pagesRouteRouteWithChildren;
-  authLoginIndexRoute: typeof authLoginIndexRoute;
-  authRegisterIndexRoute: typeof authRegisterIndexRoute;
-  authResetPasswordIndexRoute: typeof authResetPasswordIndexRoute;
+  pagesRouteRoute: typeof pagesRouteRouteWithChildren
+  authLoginIndexRoute: typeof authLoginIndexRoute
+  authRegisterIndexRoute: typeof authRegisterIndexRoute
+  authResetPasswordIndexRoute: typeof authResetPasswordIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -174,11 +174,11 @@ const rootRouteChildren: RootRouteChildren = {
   authLoginIndexRoute: authLoginIndexRoute,
   authRegisterIndexRoute: authRegisterIndexRoute,
   authResetPasswordIndexRoute: authResetPasswordIndexRoute,
-};
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
