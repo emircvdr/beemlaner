@@ -51,7 +51,7 @@ export function WorkspaceCreateDialog({ trigger }: { trigger?: React.ReactNode }
                 </DialogHeader>
                 <div className="flex flex-row gap-4">
                     <div className="flex flex-col  gap-2 ">
-                        <div className={`w-30 h-30 border rounded-lg bg-[${color}] flex items-center justify-center`}>
+                        <div className={`w-30 h-30 border rounded-lg  flex items-center justify-center`} style={{ backgroundColor: color }}>
                             {icon && iconComponents[icon as keyof typeof iconComponents]}
                         </div>
                         <Button
