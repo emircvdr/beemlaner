@@ -6,7 +6,8 @@ import * as LucideIcons from "lucide-react"
 import { Button } from '@/components/ui/button'
 import DataTable from '../../../components/data-table'
 import { columns } from '../../../components/column'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { getWorkspaceUsers } from '@/api/workspaceUsers.api'
 
 export const Route = createFileRoute('/(pages)/workspaces/$id')({
   component: RouteComponent,
@@ -58,6 +59,12 @@ function RouteComponent() {
 
 
   ]
+
+  useEffect(() => {
+    getWorkspaceUsers(currentWorkspaceId).then((res) => {
+      console.log(res)
+    })
+  }, [])
 
   return (
     <div className='w-full h-full flex items-center justify-start flex-col gap-5'>

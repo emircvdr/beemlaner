@@ -33,7 +33,7 @@ export const columns: ColumnDef<Payment>[] = [
                     className="flex gap-1 px-1.5 text-muted-foreground [&_svg]:size-3"
                 >
                     {row.original.role === "Admin" ? (
-                        <Crown className="text-yellow-200 dark:text-yellow-400" />
+                        <Crown className="text-yellow-500 dark:text-yellow-400" />
                     ) : (
                         <Flame className="text-red-500 dark:text-red-400" />
                     )}
