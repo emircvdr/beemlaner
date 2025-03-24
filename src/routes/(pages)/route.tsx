@@ -2,6 +2,7 @@ import { GetUser } from '@/api/authApi'
 import { AppSidebar } from '@/components/app-sidebar'
 import { SiteHeader } from '@/components/site-header'
 import { SidebarInset } from '@/components/ui/sidebar'
+import { useUserStore } from '@/store/store'
 import { Outlet, createFileRoute, } from '@tanstack/react-router'
 
 interface User {
@@ -12,6 +13,8 @@ interface User {
     avatar_url?: string
 }
 
+
+
 export const Route = createFileRoute('/(pages)')({
     component: AppLayoutComponent,
     loader: async () => {
@@ -21,9 +24,12 @@ export const Route = createFileRoute('/(pages)')({
     }
 })
 
+
 function AppLayoutComponent() {
 
     const user = Route.useLoaderData()
+    useUserStore.setState({ userId: user.user.user.id })
+
 
     return (
         <div className="flex w-screen h-screen overflow-hidden bg-sidebar">

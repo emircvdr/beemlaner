@@ -7,7 +7,7 @@ import AppleIcon from "../../../assets/AppleIcon.svg"
 import AppLogo from "../../../assets/AppLogo.svg"
 import { ArrowDown, BadgeCheck, BadgeX, Github } from 'lucide-react';
 import { useState } from 'react';
-import { Login, signInWithGithub } from '@/api/authApi';
+import { Login, signInWithGithub, signInWithGoogle } from '@/api/authApi';
 import { toast } from 'sonner';
 import ResetPassword from '@/components/resetPassword';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -91,6 +91,14 @@ function RouteComponent() {
         }
     }
 
+    const handleLogInWithGoogle = async () => {
+        try {
+            await signInWithGoogle();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <div className='w-full  flex items-center justify-center'>
             {
@@ -150,7 +158,7 @@ function RouteComponent() {
                             <Separator orientation="horizontal" className="flex-1" />
                         </div>
                         <div className='flex justify-evenly w-full p-2'>
-                            <Button variant="ghost" size="icon" className="p-2 w-16 h-10 border" >
+                            <Button variant="ghost" size="icon" className="p-2 w-16 h-10 border" onClick={handleLogInWithGoogle}>
                                 <img src={GoogleIcon} alt="Google" className="w-6 h-6" />
                             </Button>
                             <Button variant="ghost" size="icon" className="p-2 w-16 h-10 border" onClick={handleLogInWithGithub}>

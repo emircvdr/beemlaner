@@ -85,7 +85,7 @@ export function NavUser(user: User) {
                                     )
                                 }
                                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate ">{user.user.fullname}</span>
+                                    <span className="truncate ">{user.user.fullname || user.user.full_name}</span>
                                     <span className="truncate text-xs">{user.user.email}</span>
                                 </div>
                             </div>

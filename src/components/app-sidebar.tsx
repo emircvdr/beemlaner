@@ -1,4 +1,3 @@
-import * as React from "react"
 import { AudioWaveform, Box, CircleDotDashed, Command, GalleryVerticalEnd, Inbox, LayoutDashboardIcon, } from "lucide-react"
 
 
@@ -44,6 +43,7 @@ interface User {
 
 
 export function AppSidebar({ user }: { user: User }) {
+
     return (
         <Sidebar collapsible="offcanvas" variant="inset">
             <SidebarHeader>

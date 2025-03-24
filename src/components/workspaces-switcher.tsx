@@ -16,6 +16,7 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
+import { WorkspaceCreateDialog } from "./workspaceCreateDialog"
 
 export function WorkspacesSwitcher({
     workspaces,
@@ -77,11 +78,13 @@ export function WorkspacesSwitcher({
                             </DropdownMenuItem>
                         ))}
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="gap-2 p-2">
+                        <DropdownMenuItem className="gap-2 p-2" onSelect={(e) => e.preventDefault()}>
                             <div className="flex size-6 items-center justify-center rounded-md border bg-background">
                                 <Plus className="size-4" />
                             </div>
-                            <div className="font-medium text-muted-foreground">Add workspace</div>
+                            <WorkspaceCreateDialog trigger={
+                                <div className="font-medium text-muted-foreground">Add workspace</div>
+                            } />
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
