@@ -22,7 +22,7 @@ function RouteComponent() {
   const [disabled, setDisabled] = useState(true)
 
   const [name, setName] = useState<any>(workspace?.name || '')
-
+  const [members, setMembers] = useState<any>([])
   const getIconComponent = (iconName: string) => {
     return LucideIcons[iconName as keyof typeof LucideIcons] || LucideIcons.FileIcon
   }
@@ -31,38 +31,11 @@ function RouteComponent() {
     setName(e.target.value)
     setDisabled(false)
   }
-  const dummyData = [
-    {
-      id: '1',
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      role: 'Admin',
-    },
-    {
-      id: '2',
-      name: 'Jane Doe',
-      email: 'jane.doe@example.com',
-      role: 'User',
-    },
-    {
-      id: '3',
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      role: 'Admin',
-    },
-    {
-      id: '4',
-      name: 'Jane Doe',
-      email: 'jane.doe@example.com',
-      role: 'User',
-    },
 
-
-  ]
 
   useEffect(() => {
     getWorkspaceUsers(currentWorkspaceId).then((res) => {
-      console.log(res)
+      setMembers(res)
     })
   }, [])
 
@@ -96,7 +69,7 @@ function RouteComponent() {
       </Card>
       <div className='flex flex-col gap-2 w-1/2 p-6'>
         <p className='text-xl font-semibold'>Members</p>
-        <DataTable columns={columns} data={dummyData} />
+        <DataTable columns={columns} data={members} />
 
       </div>
     </div>

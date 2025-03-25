@@ -14,6 +14,7 @@ import { useUserStore } from "@/store/store"
 import { AudioWaveform, Command, GalleryVerticalEnd, Network, Sparkles } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip"
 
 export function WorkspaceCreateDialog({ trigger }: { trigger?: React.ReactNode }) {
     const [name, setName] = useState<string>("")
@@ -54,16 +55,25 @@ export function WorkspaceCreateDialog({ trigger }: { trigger?: React.ReactNode }
                         <div className={`w-30 h-30 border rounded-lg  flex items-center justify-center`} style={{ backgroundColor: color }}>
                             {icon && iconComponents[icon as keyof typeof iconComponents]}
                         </div>
-                        <Button
-                            variant="outline"
-                            size="default"
-                            className=" bg-gradient-to-r from-purple-500 via-purple-600 to-indigo-600 hover:from-purple-600 hover:via-purple-700 hover:to-indigo-700 text-white border-none shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2 px-4 py-2"
-                        >
-                            <Sparkles className="h-4 w-4 text-yellow-300" />
-                            <span className="text-xs">
-                                Upgrade ?
-                            </span>
-                        </Button>
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        size="default"
+                                        className=" bg-gradient-to-r from-purple-500 via-purple-600 to-indigo-600 hover:from-purple-600 hover:via-purple-700 hover:to-indigo-700 text-white border-none shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2 px-4 py-2"
+                                    >
+                                        <Sparkles className="h-4 w-4 text-yellow-300" />
+                                        <span className="text-xs">
+                                            Upgrade ?
+                                        </span>
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>More workspaces, more projects, more users, more customizations.</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
                     </div>
 
                     <div className="flex flex-col gap-2">

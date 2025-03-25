@@ -59,10 +59,6 @@ export function AppSidebar({ user, workspaces }: { user: User, workspaces: Works
             <SidebarContent className="mt-2">
                 <SidebarMenu className="pl-2">
                     <SidebarMenuButton className="">
-                        <Inbox className="size-4!" />
-                        <p className="text-xs">Inbox</p>
-                    </SidebarMenuButton>
-                    <SidebarMenuButton className="">
                         <CircleDotDashed className="size-4!" />
                         <p className="text-xs">My All Issues</p>
                     </SidebarMenuButton>

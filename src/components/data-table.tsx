@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/table"
 import { Input } from "./ui/input"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dropdown-menu"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Plus } from "lucide-react"
 import { Button } from "./ui/button"
 
 interface DataTableProps<TData, TValue> {
@@ -64,8 +64,11 @@ export function DataTable<TData, TValue>({
                     className="max-w-sm"
                 />
                 <DropdownMenu>
+                    <Button variant="default" className="ml-auto bg-green-300! text-black!">
+                        <Plus /> Invite
+                    </Button>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
+                        <Button variant="outline" className="ml-2">
                             Columns <ChevronDown />
                         </Button>
                     </DropdownMenuTrigger>

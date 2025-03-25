@@ -9,7 +9,7 @@ import AppleIcon from "../../../assets/AppleIcon.svg"
 import AppLogo from "../../../assets/AppLogo.svg"
 import { Register } from '@/api/authApi';
 import { Separator } from '@/components/ui/separator';
-
+import { toast } from 'sonner';
 export const Route = createFileRoute('/(auth)/register/')({
     component: RouteComponent,
 })
@@ -31,7 +31,11 @@ function RouteComponent() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            await Register(form);
+            await Register(form).then((res) => {
+                if (res) {
+                    toast.success("Please check your email for verification")
+                }
+            })
         } catch (error) {
             setError(error as string);
         }

@@ -1,10 +1,11 @@
 import { GetUser } from '@/api/authApi'
-import { getWorkspaces } from '@/api/workspaceApi'
+import { getWorkspaces, sync_user_profiles } from '@/api/workspaceApi'
 import { AppSidebar } from '@/components/app-sidebar'
 import { SiteHeader } from '@/components/site-header'
 import { SidebarInset } from '@/components/ui/sidebar'
 import { useUserStore, useWorkspaceStore, } from '@/store/store'
 import { Outlet, createFileRoute, } from '@tanstack/react-router'
+import { useEffect } from 'react'
 
 interface User {
     fullname: string
@@ -14,22 +15,34 @@ interface User {
     avatar_url?: string
 }
 
+
+
 export const Route = createFileRoute('/(pages)')({
     component: AppLayoutComponent,
     loader: async () => {
         return {
             user: await GetUser(),
-            workspace: await getWorkspaces()
+            workspace: await getWorkspaces(),
         }
     }
 })
 
 
+
+
 function AppLayoutComponent() {
+
 
     const data = Route.useLoaderData()
     useUserStore.setState({ userId: data.user.user.id })
     useWorkspaceStore.setState({ workspaces: data.workspace as any })
+
+    useEffect(() => {
+        if (data.user.user.confirmed_at != null) {
+            sync_user_profiles()
+        }
+    }, [data.user.user.confirmed_at])
+
 
 
     return (

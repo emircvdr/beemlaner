@@ -4,20 +4,44 @@ import { Crown, Flame, MoreVerticalIcon } from "lucide-react"
 import { Badge } from "./ui/badge"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { Button } from "./ui/button"
+import BoringAvatar from "boring-avatars"
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-    id: string
+export type User = {
+    user_id: string
     name: string
+    fullname: string
     email: string
     role: string
+    avatar_url: any
 }
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<User>[] = [
+    {
+        accessorKey: "avatar_url",
+        header: "",
+        cell: ({ row }) => {
+            return (
+                <div className="flex items-center gap-2">
+                    {
+                        row.original.avatar_url ? (
+                            <img src={row.original.avatar_url} alt="avatar" className="size-8! rounded-full" />
+                        ) : (
+                            <BoringAvatar name={row.original.user_id} variant="marble" colors={["#a8bcbd", "#fcdcb3", "#f88d87", "#d65981", "#823772"]} size={30} />
+                        )
+                    }
+                </div>
+            )
+        },
+    },
     {
         accessorKey: "name",
         header: "Name",
+        cell: ({ row }) => {
+            return (
+                <div className="flex items-center gap-2">
+                    <span>{row.original.name || row.original.fullname}</span>
+                </div>
+            )
+        }
     },
     {
         accessorKey: "email",

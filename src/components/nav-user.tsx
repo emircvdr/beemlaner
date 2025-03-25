@@ -57,9 +57,9 @@ export function NavUser(user: User) {
                         >
                             {
                                 user.user.avatar_url ? (
-                                    <img src={user.user.avatar_url} alt="avatar" className="size-8! rounded-full" />
+                                    <img src={user.user.avatar_url} alt="avatar" className="size-8! rounded-lg" />
                                 ) : (
-                                    <BoringAvatar name={user.user.sub} variant="marble" colors={["#a8bcbd", "#fcdcb3", "#f88d87", "#d65981", "#823772"]} size={30} />
+                                    <BoringAvatar name={user.user.sub} variant="marble" colors={["#a8bcbd", "#fcdcb3", "#f88d87", "#d65981", "#823772"]} size={100} className="size-8! " />
                                 )
                             }
                             <div className="grid flex-1 text-left text-sm leading-tight">

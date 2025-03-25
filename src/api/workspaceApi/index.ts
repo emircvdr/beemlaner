@@ -36,3 +36,13 @@ export const getWorkspaces = async () => {
   }
   return data;
 };
+
+export const sync_user_profiles = async () => {
+  const { data, error } = await supabase.rpc("sync_user_profiles");
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
