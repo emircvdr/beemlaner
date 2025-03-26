@@ -25,7 +25,7 @@ export function WorkspacesSwitcher({
     workspaces,
 }: {
     workspaces: {
-        id: string
+        workplace_uuid: string
         name: string
         color: string
         icon: string
@@ -39,7 +39,6 @@ export function WorkspacesSwitcher({
     const getIconComponent = (iconName: string) => {
         return LucideIcons[iconName as keyof typeof LucideIcons] || LucideIcons.FileIcon
     }
-
 
     return (
         <SidebarMenu>
@@ -122,7 +121,7 @@ export function WorkspacesSwitcher({
                                     navigate({
                                         to: "/workspaces/$id",
                                         params: {
-                                            id: activeWorkspace.id
+                                            id: activeWorkspace.workplace_uuid
                                         }
                                     })
                                 }

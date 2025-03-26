@@ -26,3 +26,33 @@ export const inviteUser = async (
   }
   return data;
 };
+
+export const getWorkspaceInvites = async (receiver_id: string) => {
+  const { data, error } = await supabase.rpc(
+    "get_workspace_invite_by_recr_id",
+    {
+      receiver_id: receiver_id,
+    }
+  );
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
+export const acceptInvite = async (invite_id: string) => {
+  const { data, error } = await supabase
+    .from("workspace_invites")
+    .update({
+      status: "accepted",
+      is_accepted: true,
+      accepted_at: new Date(),
+    })
+    .eq("id", invite_id);
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};

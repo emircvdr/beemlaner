@@ -21,7 +21,7 @@ export const Route = createFileRoute('/(pages)/workspaces/$id')({
 function RouteComponent() {
   const currentWorkspace = useWorkspaceStore((state) => state.workspaces)
   const currentWorkspaceId = Route.useParams().id
-  const workspace = currentWorkspace?.find((workspace: any) => workspace.id == currentWorkspaceId)
+  const workspace = currentWorkspace?.find((workspace: any) => workspace.workplace_uuid == currentWorkspaceId)
 
   const [disabled, setDisabled] = useState(true)
 
@@ -75,9 +75,15 @@ function RouteComponent() {
               <div className='flex flex-row gap-2'>
                 <Input placeholder='Workspace Name' className={`${disabled ? 'bg-gray-100 cursor-not-allowed  dark:bg-gray-800' : 'bg-white  dark:bg-gray-900'}`} value={name} disabled={disabled} onChange={(e) => { handleNameChange(e) }} /> {
                   !disabled && (
-                    <Button variant='ghost' size="icon" className='w-fit' onClick={() => { handleUpdateWorkspace() }}>
-                      <LucideIcons.Check className='w-8! h-4 text-green-500' />
-                    </Button>
+                    <div className='flex flex-row'>
+                      <Button variant='ghost' size="icon" className='w-fit' onClick={() => { handleUpdateWorkspace() }}>
+                        <LucideIcons.Check className='w-8! h-4 text-green-500' />
+                      </Button>
+                      <Button variant='ghost' size="icon" className='w-fit' onClick={() => { setDisabled(true) }}>
+                        <LucideIcons.X className='w-8! h-4 text-red-500' />
+                      </Button>
+                    </div>
+
                   )
 
                 }

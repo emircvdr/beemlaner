@@ -78,3 +78,15 @@ export const deleteWorkspace = async (workspace: { id: string }) => {
 
   return data;
 };
+
+export const getWorkspaceUserById = async (id: string) => {
+  const { data, error } = await supabase.rpc("get_workspace_by_user", {
+    id: id,
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};

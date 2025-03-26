@@ -12,6 +12,7 @@ import {
 import { WorkspacesSwitcher } from "./workspaces-switcher"
 import { NavUser } from "./nav-user"
 import { useNavigate } from "@tanstack/react-router"
+import { useEffect } from "react"
 
 
 interface User {
@@ -23,7 +24,7 @@ interface User {
 }
 
 interface Workspace {
-    id: string
+    workplace_uuid: string
     name: string
     color: string
     icon: string
@@ -32,6 +33,7 @@ interface Workspace {
 
 export function AppSidebar({ user, workspaces }: { user: User, workspaces: Workspace[] }) {
     const navigate = useNavigate()
+
     return (
         <Sidebar collapsible="offcanvas" variant="inset">
             <SidebarHeader>
