@@ -15,8 +15,12 @@ import { AudioWaveform, Command, GalleryVerticalEnd, Network, Sparkles } from "l
 import { useState } from "react"
 import { toast } from "sonner"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip"
+import { createWorkspaceUser } from "@/api/workspaceUsers.api"
+import { useNavigate } from "@tanstack/react-router"
+import { UpgradeButton } from "./upgradeButton"
 
 export function WorkspaceCreateDialog({ trigger }: { trigger?: React.ReactNode }) {
+    const navigate = useNavigate()
     const [name, setName] = useState<string>("")
     const [color, setColor] = useState<string>("")
     const [icon, setIcon] = useState<string>("")
@@ -30,8 +34,12 @@ export function WorkspaceCreateDialog({ trigger }: { trigger?: React.ReactNode }
     };
 
     const handleSubmit = async () => {
-        await createWorkspace({ name, admin_id: userId, color, icon })
-        toast.success("Workspace created successfully")
+        await createWorkspace({ name, admin_id: userId, color, icon }).then((res) => {
+            createWorkspaceUser(res[0].id, userId, "Admin")
+            toast.success("Workspace created successfully")
+            navigate({ to: '/workspaces/' + res[0].id })
+        })
+
         setName("")
         setColor("")
         setIcon("")
@@ -58,16 +66,7 @@ export function WorkspaceCreateDialog({ trigger }: { trigger?: React.ReactNode }
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        size="default"
-                                        className=" bg-gradient-to-r from-purple-500 via-purple-600 to-indigo-600 hover:from-purple-600 hover:via-purple-700 hover:to-indigo-700 text-white border-none shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2 px-4 py-2"
-                                    >
-                                        <Sparkles className="h-4 w-4 text-yellow-300" />
-                                        <span className="text-xs">
-                                            Upgrade ?
-                                        </span>
-                                    </Button>
+                                    <UpgradeButton />
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>More workspaces, more projects, more users, more customizations.</p>

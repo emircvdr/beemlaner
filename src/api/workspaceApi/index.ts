@@ -46,3 +46,35 @@ export const sync_user_profiles = async () => {
 
   return data;
 };
+
+export const updateWorkspace = async (workspace: {
+  id: string;
+  name: string;
+}) => {
+  const { data, error } = await supabase
+    .from("workspaces")
+    .update({
+      name: workspace.name,
+      updated_at: new Date(),
+    })
+    .eq("id", workspace.id)
+    .select();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};
+
+export const deleteWorkspace = async (workspace: { id: string }) => {
+  const { data, error } = await supabase
+    .from("workspaces")
+    .delete()
+    .eq("id", workspace.id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};

@@ -1,10 +1,11 @@
 
 import { ColumnDef } from "@tanstack/react-table"
-import { Crown, Flame, MoreVerticalIcon } from "lucide-react"
+import { Crown, Flame, Gavel, MoreVerticalIcon } from "lucide-react"
 import { Badge } from "./ui/badge"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { Button } from "./ui/button"
 import BoringAvatar from "boring-avatars"
+import { useUserStore } from "@/store/store"
 
 export type User = {
     user_id: string
@@ -14,6 +15,8 @@ export type User = {
     role: string
     avatar_url: any
 }
+
+
 export const columns: ColumnDef<User>[] = [
     {
         accessorKey: "avatar_url",
@@ -69,7 +72,7 @@ export const columns: ColumnDef<User>[] = [
     },
     {
         id: "actions",
-        cell: () => (
+        cell: ({ row }) => (
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button
@@ -82,8 +85,12 @@ export const columns: ColumnDef<User>[] = [
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-32">
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                    <DropdownMenuItem disabled={row.original.user_id ===
+                        useUserStore((state) => state.userId)
+                    } className="flex items-center gap-2">
+                        <Gavel size={10} />
+                        <span>Kick</span>
+                    </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         ),

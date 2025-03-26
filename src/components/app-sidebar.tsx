@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/sidebar"
 import { WorkspacesSwitcher } from "./workspaces-switcher"
 import { NavUser } from "./nav-user"
-
+import { useNavigate } from "@tanstack/react-router"
 
 // const workspaces = [
 //     {
@@ -50,7 +50,7 @@ interface Workspace {
 }
 
 export function AppSidebar({ user, workspaces }: { user: User, workspaces: Workspace[] }) {
-
+    const navigate = useNavigate()
     return (
         <Sidebar collapsible="offcanvas" variant="inset">
             <SidebarHeader>
@@ -68,7 +68,7 @@ export function AppSidebar({ user, workspaces }: { user: User, workspaces: Works
                         <p className="text-xs">Workspaces</p>
                     </SidebarGroupLabel>
                     <SidebarMenu>
-                        <SidebarMenuButton className="">
+                        <SidebarMenuButton className="" onClick={() => navigate({ to: '/' })}>
                             <LayoutDashboardIcon className="size-4!" />
                             <p className="text-xs">Dashboard</p>
                         </SidebarMenuButton>
