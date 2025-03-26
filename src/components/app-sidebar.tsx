@@ -29,6 +29,7 @@ interface Workspace {
     color: string
     icon: string
     plan: string
+    admin_id: string
 }
 
 export function AppSidebar({ user, workspaces }: { user: User, workspaces: Workspace[] }) {

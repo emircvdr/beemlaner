@@ -5,7 +5,6 @@ import { SiteHeader } from '@/components/site-header'
 import { SidebarInset } from '@/components/ui/sidebar'
 import { useUserStore, useWorkspaceStore } from "@/store/store"
 import { Outlet, createFileRoute, } from '@tanstack/react-router'
-import { useEffect } from 'react'
 
 interface User {
     fullname: string

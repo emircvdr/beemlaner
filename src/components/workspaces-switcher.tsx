@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/sidebar"
 import { WorkspaceCreateDialog } from "./workspaceCreateDialog"
 import { useNavigate } from "@tanstack/react-router"
+import { useUserStore } from "@/store/store"
+import { Badge } from "./ui/badge"
 
 
 export function WorkspacesSwitcher({
@@ -30,8 +32,10 @@ export function WorkspacesSwitcher({
         color: string
         icon: string
         plan: string
+        admin_id: string
     }[]
 }) {
+    const userId = useUserStore((state) => state.userId || "")
     const navigate = useNavigate()
     const { isMobile } = useSidebar()
     const [activeWorkspace, setActiveWorkspace] = React.useState(workspaces.length > 0 ? workspaces[0] : null)
@@ -95,7 +99,7 @@ export function WorkspacesSwitcher({
                                     >
                                         {React.createElement(getIconComponent(workspace.icon) as React.ElementType, { className: 'size-4 text-white' })}
                                     </div>
-                                    {workspace.name}
+                                    {workspace.name} {userId === workspace.admin_id && <Badge variant="outline"><LucideIcons.Crown className="size-4 text-amber-500/80 dark:text-amber-500/80" /></Badge>}
                                     <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
                                 </DropdownMenuItem>
                             ))
@@ -114,7 +118,7 @@ export function WorkspacesSwitcher({
                                 <div className="font-medium text-muted-foreground">Add workspace</div>
                             } />
                         </DropdownMenuItem>
-                        {activeWorkspace && (
+                        {activeWorkspace && userId === activeWorkspace.admin_id && (
                             <DropdownMenuItem
                                 className="gap-2 p-2"
                                 onSelect={() =>
