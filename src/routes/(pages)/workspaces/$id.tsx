@@ -60,7 +60,7 @@ function RouteComponent() {
   const membersCount = members.length
 
   return (
-    <div className='w-full h-full overflow-y-auto! flex items-center justify-start flex-col gap-5'>
+    <div className='w-full h-full p-2 overflow-y-auto! flex items-center justify-start flex-col gap-5'>
       <Card className='min-w-1/2 items-start h-fit border-none shadow-none bg-transparent'>
         <CardHeader>
           <CardTitle className='text-xl'>Workspace</CardTitle>
@@ -89,11 +89,11 @@ function RouteComponent() {
       </Card>
       <div className='flex flex-col gap-2 w-1/2 p-6'>
         <p className='text-xl font-semibold'>Members</p>
-        <DataTable columns={columns} data={members} />
+        <DataTable columns={columns} data={members} workspaceId={currentWorkspaceId} />
       </div>
       <Accordion type="multiple" className='flex flex-col gap-2 w-1/2 p-6'>
         <AccordionItem value="item-1">
-          <AccordionTrigger className='text-blue-500/80 dark:text-blue-500/80 text-sm'>Plan</AccordionTrigger>
+          <AccordionTrigger className='text-dark/80 dark:text-white/80 text-sm'>Plan</AccordionTrigger>
           <AccordionContent className='flex flex-col gap-2'>
             <div className=' flex flex-row gap-5  justify-center'>
               <IndividualCard />

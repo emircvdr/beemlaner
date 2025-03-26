@@ -1,6 +1,4 @@
 import { Box, CircleDotDashed, Inbox, LayoutDashboardIcon, } from "lucide-react"
-
-
 import {
     Sidebar,
     SidebarContent,
@@ -15,23 +13,6 @@ import { WorkspacesSwitcher } from "./workspaces-switcher"
 import { NavUser } from "./nav-user"
 import { useNavigate } from "@tanstack/react-router"
 
-// const workspaces = [
-//     {
-//         name: "Beem",
-//         logo: GalleryVerticalEnd,
-//         plan: "Enterprise",
-//     },
-//     {
-//         name: "PrimeTek",
-//         logo: AudioWaveform,
-//         plan: "Free",
-//     },
-//     {
-//         name: "Besiktas",
-//         logo: Command,
-//         plan: "Startup",
-//     },
-// ]
 
 interface User {
     fullname: string
@@ -59,6 +40,10 @@ export function AppSidebar({ user, workspaces }: { user: User, workspaces: Works
             <SidebarContent className="mt-2">
                 <SidebarMenu className="pl-2">
                     <SidebarMenuButton className="">
+                        <Inbox className="size-4!" />
+                        <p className="text-xs">Inbox</p>
+                    </SidebarMenuButton>
+                    <SidebarMenuButton className="">
                         <CircleDotDashed className="size-4!" />
                         <p className="text-xs">My All Issues</p>
                     </SidebarMenuButton>
@@ -82,8 +67,6 @@ export function AppSidebar({ user, workspaces }: { user: User, workspaces: Works
                         </SidebarMenuButton>
                     </SidebarMenu>
                 </SidebarGroup>
-
-
             </SidebarContent>
             <SidebarFooter>
                 <NavUser user={user} />

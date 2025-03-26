@@ -6,6 +6,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Button } from "./ui/button"
 import BoringAvatar from "boring-avatars"
 import { useUserStore } from "@/store/store"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip"
+
 
 export type User = {
     user_id: string
@@ -85,12 +87,31 @@ export const columns: ColumnDef<User>[] = [
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-32">
-                    <DropdownMenuItem disabled={row.original.user_id ===
-                        useUserStore((state) => state.userId)
-                    } className="flex items-center gap-2">
-                        <Gavel size={10} />
-                        <span>Kick</span>
-                    </DropdownMenuItem>
+                    {
+                        row.original.user_id === useUserStore((state) => state.userId) ? (
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <DropdownMenuItem disabled={row.original.user_id ===
+                                            useUserStore((state) => state.userId)
+                                        } className="flex items-center gap-2">
+                                            <Gavel size={10} />
+                                            <span>Kick</span>
+                                        </DropdownMenuItem>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        You can't kick yourself.
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        ) : (
+                            <DropdownMenuItem className="flex items-center gap-2">
+                                <Gavel size={10} />
+                                <span>Kick</span>
+                            </DropdownMenuItem>
+                        )
+                    }
+
                 </DropdownMenuContent>
             </DropdownMenu>
         ),

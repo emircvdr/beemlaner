@@ -21,7 +21,7 @@ const cardDetails = [
 
 export const IndividualCard = () => {
     return (
-        <Card className="w-1/3 h-full">
+        <Card className="w-1/3 h-full bg-transparent">
             <CardHeader>
                 <CardTitle className="flex flex-row items-center justify-between">
                     <span className="text-lg">{cardDetails[0].title}</span>
