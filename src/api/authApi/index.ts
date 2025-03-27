@@ -25,6 +25,7 @@ export async function Register(form: {
     email: form.email,
     password: form.password,
     options: {
+      emailRedirectTo: "http://localhost:5173/",
       data: {
         fullname: form.fullname,
       },

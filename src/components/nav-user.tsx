@@ -26,6 +26,9 @@ import {
 import { Logout } from "@/api/authApi"
 import { useNavigate } from "@tanstack/react-router"
 import BoringAvatar from "boring-avatars";
+import { useMemo } from "react"
+import { createAvatar } from "@dicebear/core"
+import { notionists } from "@dicebear/collection"
 
 
 interface User {
@@ -40,6 +43,17 @@ interface User {
 
 export function NavUser(user: User) {
     const { isMobile } = useSidebar()
+
+    const avatar = useMemo(() => {
+        return createAvatar(notionists, {
+            seed: "Aneka",
+            backgroundColor: ["f8f9fa"],
+            backgroundType: ["solid"],
+            body: ["variant01"],
+            bodyIcon: ["electric"],
+        }).toDataUri()
+    }, [])
+
     const navigate = useNavigate()
     const handleLogout = () => {
         Logout()
@@ -62,6 +76,7 @@ export function NavUser(user: User) {
                                     <BoringAvatar name={user.user.sub} variant="marble" colors={["#a8bcbd", "#fcdcb3", "#f88d87", "#d65981", "#823772"]} size={100} className="size-8! " />
                                 )
                             }
+                            {/* <img src={avatar} alt="avatar" className="size-10! rounded-lg" /> */}
                             <div className="grid flex-1 text-left text-sm leading-tight">
                                 <span className="truncate ">{user.user.fullname || user.user.full_name}</span>
                                 <span className="truncate text-[10px]">{user.user.email || ''}</span>
@@ -84,6 +99,7 @@ export function NavUser(user: User) {
                                         <BoringAvatar name={user.user.sub} variant="marble" colors={["#a8bcbd", "#fcdcb3", "#f88d87", "#d65981", "#823772"]} size={30} />
                                     )
                                 }
+                                {/* <img src={avatar} alt="avatar" className="size-10! rounded-lg" /> */}
                                 <div className="grid flex-1 text-left text-sm leading-tight">
                                     <span className="truncate ">{user.user.fullname || user.user.full_name}</span>
                                     <span className="truncate text-xs">{user.user.email}</span>

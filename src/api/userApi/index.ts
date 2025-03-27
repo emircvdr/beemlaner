@@ -15,3 +15,14 @@ export const getUser = async (id: string) => {
   }
   return data;
 };
+
+export const testInsert = async (username: string, avatar_options: any) => {
+  const { data, error } = await supabase.from("user_profiles").insert({
+    username: username,
+    avatar_options: avatar_options,
+  });
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};
