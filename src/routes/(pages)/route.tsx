@@ -45,11 +45,6 @@ function AppLayoutComponent() {
         sync_user_profiles()
     }
 
-    console.log('data.sa:', data.userProfilesData.avatar_options.body)
-
-
-
-
 
     return (
         <div className="flex w-screen h-screen overflow-hidden bg-sidebar">

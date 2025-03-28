@@ -1,4 +1,3 @@
-
 import { ColumnDef } from "@tanstack/react-table"
 import { Crown, Flame, Gavel, MoreVerticalIcon } from "lucide-react"
 import { Badge } from "./ui/badge"
@@ -7,9 +6,13 @@ import { Button } from "./ui/button"
 import BoringAvatar from "boring-avatars"
 import { useUserStore } from "@/store/store"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip"
+import { notionists } from "@dicebear/collection"
+import { createAvatar } from "@dicebear/core"
+import { useMemo } from "react"
 
 
 export type User = {
+    avatar_options: any
     user_id: string
     name: string
     fullname: string
@@ -19,20 +22,50 @@ export type User = {
 }
 
 
+
 export const columns: ColumnDef<User>[] = [
     {
-        accessorKey: "avatar_url",
+        accessorKey: "avatar",
         header: "",
         cell: ({ row }) => {
+            const avatar = useMemo(() => {
+                if (!row.original.avatar_url) {
+                    return createAvatar(notionists, {
+                        seed: row.original.name || "Aneka",
+                        backgroundColor: ["f8f9fa"],
+                        backgroundType: ["solid"],
+                        body: [row.original.avatar_options?.body[0]],
+                        eyes: [row.original.avatar_options?.eyes[0]],
+                        hair: [row.original.avatar_options?.hair[0]],
+                        lips: [row.original.avatar_options?.lips[0]],
+                        nose: [row.original.avatar_options?.nose[0]],
+                        beard: [row.original.avatar_options?.beard[0]],
+                        brows: [row.original.avatar_options?.brows[0]],
+                        radius: 5,
+                        glasses: [row.original.avatar_options?.glasses[0]],
+                        bodyIcon: [row.original.avatar_options?.bodyIcon[0]],
+                        beardProbability: 100,
+                        glassesProbability: 20,
+                        bodyIconProbability: 75,
+                    }).toDataUri()
+                }
+                return null
+            }, [row.original.name, row.original.avatar_url])
+
             return (
                 <div className="flex items-center gap-2">
-                    {
-                        row.original.avatar_url ? (
-                            <img src={row.original.avatar_url} alt="avatar" className="size-8! rounded-full" />
-                        ) : (
-                            <BoringAvatar name={row.original.user_id} variant="marble" colors={["#a8bcbd", "#fcdcb3", "#f88d87", "#d65981", "#823772"]} size={30} />
-                        )
-                    }
+                    {row.original.avatar_url ? (
+                        <img src={row.original.avatar_url} alt="avatar" className="size-8 rounded-full" />
+                    ) : avatar ? (
+                        <img src={avatar} alt="avatar" className="size-8 rounded-lg" />
+                    ) : (
+                        <BoringAvatar
+                            name={row.original.user_id}
+                            variant="marble"
+                            colors={["#a8bcbd", "#fcdcb3", "#f88d87", "#d65981", "#823772"]}
+                            size={30}
+                        />
+                    )}
                 </div>
             )
         },

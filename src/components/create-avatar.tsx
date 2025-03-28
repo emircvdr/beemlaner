@@ -5,6 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from '@/components/ui/button'
 import { Input } from './ui/input'
 import { testInsert } from '@/api/userApi'
+import { toast } from 'sonner'
+import { useNavigate } from '@tanstack/react-router'
 
 
 
@@ -52,6 +54,7 @@ export const CreateAvatar = (
             [key]: [value]
         }))
     }
+    const navigate = useNavigate()
 
     const handleSave = () => {
         const form = {
@@ -70,7 +73,10 @@ export const CreateAvatar = (
             form.is_setup_profile,
             form.username,
             form.avatar_options
-        )
+        ).then(() => {
+            toast.success('Profile created successfully')
+            navigate({ to: '/' })
+        })
     }
 
     const renderOptionGrid = (optionKey: string, length: number) => (

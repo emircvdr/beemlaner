@@ -53,10 +53,6 @@ interface UserAvatarOptions {
 export function NavUser({ user, userAvatarOptions }: { user: User; userAvatarOptions: UserAvatarOptions }) {
     const { isMobile } = useSidebar()
 
-    console.log('userAvatarOptions:', userAvatarOptions)
-    console.log('body', userAvatarOptions?.body[0])
-    console.log('body', `["${userAvatarOptions?.body[0]}"]`)
-
     const avatar = useMemo(() => {
         return createAvatar(notionists, {
             seed: "Aneka",
