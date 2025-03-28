@@ -1,10 +1,13 @@
 
 import { Chart } from '@/components/chart'
-// import { ToggleThemeButton } from '@/components/toggle-theme-button'
+import InfoPage from '@/components/infoPage'
+import { get_is_setup_profile_info_by_userID } from '@/api/workspaceApi'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { createFileRoute } from '@tanstack/react-router'
 import { FolderIcon, ListIcon, TrendingDownIcon, TrendingUpIcon, UsersIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useUserStore } from '@/store/store'
 
 export const Route = createFileRoute('/(pages)/')({
     component: Index,
@@ -65,44 +68,54 @@ const cards: Record<string, Card> = {
 }
 
 function Index() {
+    const userId = useUserStore(state => state.userId)
+    const [isSetupProfile, setIsSetupProfile] = useState<boolean | undefined>(undefined)
+
+    useEffect(() => {
+        get_is_setup_profile_info_by_userID(userId as any).then((res) => {
+            setIsSetupProfile(res)
+        })
+    }, [])
+
+    if (isSetupProfile === undefined) {
+        return <div className="flex items-center justify-center min-h-screen">Loading...</div>
+    }
 
     return (
-        <div className="w-full h-full">
-            <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                {
-                    Object.entries(cards).map(([key, card]) => (
-                        <Card className="@container/card bg-background" key={key}>
-                            <CardHeader className="relative">
-                                <CardDescription>{card.title}</CardDescription>
-                                <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-                                    {card.detail}
-                                </CardTitle>
-                                {
-                                    card.badge && (
+        <div>
+            {isSetupProfile ? (
+                <div className="w-full h-full">
+                    <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+                        {Object.entries(cards).map(([key, card]) => (
+                            <Card className="@container/card bg-background" key={key}>
+                                <CardHeader className="relative">
+                                    <CardDescription>{card.title}</CardDescription>
+                                    <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
+                                        {card.detail}
+                                    </CardTitle>
+                                    {card.badge && (
                                         <div className="absolute right-4 top-4">
                                             <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">
                                                 {card.badge.icon}
                                                 {card.badge.text}
                                             </Badge>
                                         </div>
-                                    )
-                                }
-
-                            </CardHeader>
-                            <CardFooter className="flex-col items-start gap-1 text-sm">
-                                <div className="line-clamp-1 flex items-center gap-3 font-medium">
-                                    {card.descriptionTitle} {card.icon}
-                                </div>
-                                <div className="text-muted-foreground">
-                                    {card.description}
-                                </div>
-                            </CardFooter>
-                        </Card>
-                    ))
-                }
-            </div>
-            <Chart />
-
+                                    )}
+                                </CardHeader>
+                                <CardFooter className="flex-col items-start gap-1 text-sm">
+                                    <div className="line-clamp-1 flex items-center gap-3 font-medium">
+                                        {card.descriptionTitle} {card.icon}
+                                    </div>
+                                    <div className="text-muted-foreground">
+                                        {card.description}
+                                    </div>
+                                </CardFooter>
+                            </Card>
+                        ))}
+                    </div>
+                    <Chart />
+                </div>
+            ) : <InfoPage />}
         </div>
     )
 }

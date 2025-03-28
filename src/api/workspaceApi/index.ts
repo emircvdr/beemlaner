@@ -47,6 +47,21 @@ export const sync_user_profiles = async () => {
   return data;
 };
 
+export const get_is_setup_profile_info_by_userID = async (p_id: string) => {
+  const { data, error } = await supabase.rpc(
+    "get_is_setup_profile_info_by_userid",
+    {
+      p_id: p_id,
+    }
+  );
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
 export const updateWorkspace = async (workspace: {
   id: string;
   name: string;

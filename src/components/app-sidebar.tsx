@@ -12,7 +12,6 @@ import {
 import { WorkspacesSwitcher } from "./workspaces-switcher"
 import { NavUser } from "./nav-user"
 import { useNavigate } from "@tanstack/react-router"
-import { useEffect } from "react"
 
 
 interface User {
@@ -32,7 +31,9 @@ interface Workspace {
     admin_id: string
 }
 
-export function AppSidebar({ user, workspaces }: { user: User, workspaces: Workspace[] }) {
+
+
+export function AppSidebar({ user, workspaces, userAvatarOptions }: { user: User, workspaces: Workspace[], userAvatarOptions: any }) {
     const navigate = useNavigate()
 
     return (
@@ -72,7 +73,7 @@ export function AppSidebar({ user, workspaces }: { user: User, workspaces: Works
                 </SidebarGroup>
             </SidebarContent>
             <SidebarFooter>
-                <NavUser user={user} />
+                <NavUser user={user} userAvatarOptions={userAvatarOptions} />
             </SidebarFooter>
         </Sidebar>
     )

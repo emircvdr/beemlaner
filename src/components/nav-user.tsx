@@ -25,32 +25,56 @@ import {
 } from "@/components/ui/sidebar"
 import { Logout } from "@/api/authApi"
 import { useNavigate } from "@tanstack/react-router"
-import BoringAvatar from "boring-avatars";
 import { useMemo } from "react"
 import { createAvatar } from "@dicebear/core"
 import { notionists } from "@dicebear/collection"
 
 
 interface User {
-    user: {
-        fullname: string
-        email: string
-        sub: string
-        full_name: string
-        avatar_url?: string
-    }
+    fullname: string
+    email: string
+    sub: string
+    full_name: string
+    avatar_url?: string
 }
 
-export function NavUser(user: User) {
+interface UserAvatarOptions {
+    body: string[]
+    eyes: string[]
+    hair: string[]
+    lips: string[]
+    nose: string[]
+    beard: string[]
+    brows: string[]
+    glasses: string[]
+    bodyIcon: string[]
+}
+
+export function NavUser({ user, userAvatarOptions }: { user: User; userAvatarOptions: UserAvatarOptions }) {
     const { isMobile } = useSidebar()
+
+    console.log('userAvatarOptions:', userAvatarOptions)
+    console.log('body', userAvatarOptions?.body[0])
+    console.log('body', `["${userAvatarOptions?.body[0]}"]`)
 
     const avatar = useMemo(() => {
         return createAvatar(notionists, {
             seed: "Aneka",
             backgroundColor: ["f8f9fa"],
             backgroundType: ["solid"],
-            body: ["variant01"],
-            bodyIcon: ["electric"],
+            body: [userAvatarOptions?.body[0] as any],
+            eyes: [userAvatarOptions?.eyes[0] as any],
+            hair: [userAvatarOptions?.hair[0] as any],
+            lips: [userAvatarOptions?.lips[0] as any],
+            nose: [userAvatarOptions?.nose[0] as any],
+            beard: [userAvatarOptions?.beard[0] as any],
+            brows: [userAvatarOptions?.brows[0] as any],
+            radius: 5,
+            glasses: [userAvatarOptions?.glasses[0] as any],
+            bodyIcon: [userAvatarOptions?.bodyIcon[0] as any],
+            beardProbability: 100,
+            glassesProbability: 20,
+            bodyIconProbability: 75,
         }).toDataUri()
     }, [])
 
@@ -61,81 +85,83 @@ export function NavUser(user: User) {
     }
 
     return (
-        <SidebarMenu>
-            <SidebarMenuItem>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <SidebarMenuButton
-                            size="lg"
-                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                        >
-                            {
-                                user.user.avatar_url ? (
-                                    <img src={user.user.avatar_url} alt="avatar" className="size-8! rounded-lg" />
-                                ) : (
-                                    <BoringAvatar name={user.user.sub} variant="marble" colors={["#a8bcbd", "#fcdcb3", "#f88d87", "#d65981", "#823772"]} size={100} className="size-8! " />
-                                )
-                            }
-                            {/* <img src={avatar} alt="avatar" className="size-10! rounded-lg" /> */}
-                            <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate ">{user.user.fullname || user.user.full_name}</span>
-                                <span className="truncate text-[10px]">{user.user.email || ''}</span>
-                            </div>
-                            <ChevronsUpDown className="ml-auto size-4" />
-                        </SidebarMenuButton>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                        className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-                        side={isMobile ? "bottom" : "right"}
-                        align="end"
-                        sideOffset={4}
-                    >
-                        <DropdownMenuLabel className="p-0 font-normal">
-                            <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+        <div>
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <SidebarMenuButton
+                                size="lg"
+                                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                            >
                                 {
-                                    user.user.avatar_url ? (
-                                        <img src={user.user.avatar_url} alt="avatar" className="size-8! rounded-full" />
+                                    user.avatar_url ? (
+                                        <img src={user.avatar_url} alt="avatar" className="size-8! rounded-lg" />
                                     ) : (
-                                        <BoringAvatar name={user.user.sub} variant="marble" colors={["#a8bcbd", "#fcdcb3", "#f88d87", "#d65981", "#823772"]} size={30} />
+                                        <img src={avatar} alt="avatar" className="size-11! rounded-lg" />
                                     )
                                 }
-                                {/* <img src={avatar} alt="avatar" className="size-10! rounded-lg" /> */}
                                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate ">{user.user.fullname || user.user.full_name}</span>
-                                    <span className="truncate text-xs">{user.user.email}</span>
+                                    <span className="truncate ">{user?.fullname || user?.full_name}</span>
+                                    <span className="truncate text-[10px]">{user?.email || ''}</span>
                                 </div>
-                            </div>
-                        </DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <Sparkles />
-                                Upgrade to Pro
+                                <ChevronsUpDown className="ml-auto size-4" />
+                            </SidebarMenuButton>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                            side={isMobile ? "bottom" : "right"}
+                            align="end"
+                            sideOffset={4}
+                        >
+                            <DropdownMenuLabel className="p-0 font-normal">
+                                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                                    {
+                                        user?.avatar_url ? (
+                                            <img src={user?.avatar_url} alt="avatar" className="size-8! rounded-full" />
+                                        ) : (
+                                            <img src={avatar} alt="avatar" className="size-11! rounded-lg" />
+                                        )
+                                    }
+                                    {/* <img src={avatar} alt="avatar" className="size-10! rounded-lg" /> */}
+                                    <div className="grid flex-1 text-left text-sm leading-tight">
+                                        <span className="truncate ">{user?.fullname || user?.full_name}</span>
+                                        <span className="truncate text-xs">{user?.email}</span>
+                                    </div>
+                                </div>
+                            </DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuGroup>
+                                <DropdownMenuItem>
+                                    <Sparkles />
+                                    Upgrade to Pro
+                                </DropdownMenuItem>
+                            </DropdownMenuGroup>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuGroup>
+                                <DropdownMenuItem>
+                                    <BadgeCheck />
+                                    Account
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <CreditCard />
+                                    Billing
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <Bell />
+                                    Notifications
+                                </DropdownMenuItem>
+                            </DropdownMenuGroup>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={handleLogout}>
+                                <LogOut />
+                                Log out
                             </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <BadgeCheck />
-                                Account
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <CreditCard />
-                                Billing
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Bell />
-                                Notifications
-                            </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={handleLogout}>
-                            <LogOut />
-                            Log out
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </SidebarMenuItem>
-        </SidebarMenu>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </SidebarMenuItem>
+            </SidebarMenu>
+        </div>
+
     )
 }

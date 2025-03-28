@@ -9,7 +9,8 @@ import { testInsert } from '@/api/userApi'
 
 
 export const CreateAvatar = (
-    username: string
+    username: any,
+
 ) => {
     const [avatarOptions, setAvatarOptions] = useState({
         seed: "Aneka",
@@ -53,9 +54,23 @@ export const CreateAvatar = (
     }
 
     const handleSave = () => {
-        console.log('Avatar Options:', avatarOptions)
-        console.log(username)
-        testInsert(username.username, avatarOptions)
+        const form = {
+            id: username.userAllData.id,
+            email: username.userAllData.email,
+            username: username.username,
+            fullname: username.userAllData.identities[0].identity_data.fullname,
+            avatar_options: avatarOptions,
+            is_setup_profile: true,
+        }
+        console.log(form, "form")
+        testInsert(
+            form.id,
+            form.fullname,
+            form.email,
+            form.is_setup_profile,
+            form.username,
+            form.avatar_options
+        )
     }
 
     const renderOptionGrid = (optionKey: string, length: number) => (

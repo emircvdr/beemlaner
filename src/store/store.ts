@@ -19,3 +19,13 @@ export const useWorkspaceStore = create<WorkspaceStore>((set) => ({
   workspaces: null,
   setWorkspaces: (workspaces: []) => set({ workspaces: workspaces }),
 }));
+
+type UserAllDataStore = {
+  userAllData: [] | null;
+  setUserAlldata: (userAllData: []) => void;
+};
+
+export const useUserAllDataStore = create<UserAllDataStore>((set) => ({
+  userAllData: null,
+  setUserAlldata: (userAllData: []) => set({ userAllData: userAllData }),
+}));
