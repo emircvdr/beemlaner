@@ -7,6 +7,7 @@ import { Input } from './ui/input'
 import { testInsert } from '@/api/userApi'
 import { toast } from 'sonner'
 import { useNavigate } from '@tanstack/react-router'
+import { Shuffle } from 'lucide-react'
 
 
 
@@ -97,6 +98,30 @@ export const CreateAvatar = (
             ))}
         </div>
     )
+    const getRandomNumber = (min: number, max: number) => {
+        return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+
+    const handleShuffle = () => {
+        setAvatarOptions(prev => ({
+            ...prev,
+            seed: "Aneka",
+            backgroundColor: ["f8f9fa"],
+            backgroundType: ["solid"],
+            body: [`variant${String(getRandomNumber(2, 24)).padStart(2, '0')}`],
+            bodyIcon: ["electric"],
+            bodyIconProbability: 75,
+            beard: [`variant${String(getRandomNumber(2, 12)).padStart(2, '0')}`],
+            beardProbability: 100,
+            brows: [`variant${String(getRandomNumber(2, 12)).padStart(2, '0')}`],
+            eyes: [`variant${String(getRandomNumber(2, 5)).padStart(2, '0')}`],
+            glasses: [`variant${String(getRandomNumber(2, 12)).padStart(2, '0')}`],
+            glassesProbability: 20,
+            hair: [`variant${String(getRandomNumber(1, 63)).padStart(2, '0')}`],
+            nose: [`variant${String(getRandomNumber(2, 20)).padStart(2, '0')}`],
+            lips: [`variant${String(getRandomNumber(2, 30)).padStart(2, '0')}`],
+        }))
+    }
 
     return (
         <div className="flex flex-col w-full justify-center items-center lg:flex-row gap-6 p-6">
@@ -105,7 +130,13 @@ export const CreateAvatar = (
                     <div className="w-56 h-56 sm:w-64 sm:h-64 border rounded-lg p-4 flex items-center justify-center bg-white">
                         <img src={avatar} alt="avatar" className="w-44 h-44 sm:w-52 sm:h-52" />
                     </div>
-                    <Input placeholder='Username' className='w-full' disabled value={`@${username.username}`} />
+                    <div className='flex flex-row gap-2'>
+                        <Input placeholder='Username' className='w-full' disabled value={`@${username.username}`} />
+                        <Button variant="ghost" size="icon" onClick={handleShuffle}>
+                            <Shuffle className='size-4' />
+                        </Button>
+
+                    </div>
                     <Button onClick={handleSave} className="w-full text-sm">
                         Complete Profile
                     </Button>

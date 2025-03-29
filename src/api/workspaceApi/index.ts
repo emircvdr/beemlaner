@@ -105,3 +105,20 @@ export const getWorkspaceUserById = async (id: string) => {
 
   return data;
 };
+
+export const kickUserFromWorkspace = async (
+  workspace_id: string,
+  user_id: string
+) => {
+  const { data, error } = await supabase
+    .from("workspace_users")
+    .delete()
+    .eq("workspace_id", workspace_id)
+    .eq("user_id", user_id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};

@@ -9,6 +9,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/t
 import { notionists } from "@dicebear/collection"
 import { createAvatar } from "@dicebear/core"
 import { useMemo } from "react"
+import { kickUserFromWorkspace } from "@/api/workspaceApi"
+import { toast } from "sonner"
 
 
 export type User = {
@@ -19,9 +21,8 @@ export type User = {
     email: string
     role: string
     avatar_url: any
+    workspace_id: string
 }
-
-
 
 export const columns: ColumnDef<User>[] = [
     {
@@ -107,46 +108,56 @@ export const columns: ColumnDef<User>[] = [
     },
     {
         id: "actions",
-        cell: ({ row }) => (
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button
-                        variant="ghost"
-                        className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
-                        size="icon"
-                    >
-                        <MoreVerticalIcon />
-                        <span className="sr-only">Open menu</span>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-32">
-                    {
-                        row.original.user_id === useUserStore((state) => state.userId) ? (
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger>
-                                        <DropdownMenuItem disabled={row.original.user_id ===
-                                            useUserStore((state) => state.userId)
-                                        } className="flex items-center gap-2">
-                                            <Gavel size={10} />
-                                            <span>Kick</span>
-                                        </DropdownMenuItem>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        You can't kick yourself.
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-                        ) : (
-                            <DropdownMenuItem className="flex items-center gap-2">
-                                <Gavel size={10} />
-                                <span>Kick</span>
-                            </DropdownMenuItem>
-                        )
-                    }
+        cell: ({ row }) => {
+            const workspaceId = row.original.workspace_id;
 
-                </DropdownMenuContent>
-            </DropdownMenu>
-        ),
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button
+                            variant="ghost"
+                            className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
+                            size="icon"
+                        >
+                            <MoreVerticalIcon />
+                            <span className="sr-only">Open menu</span>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-32">
+                        {
+                            row.original.user_id === useUserStore((state) => state.userId) ? (
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger>
+                                            <DropdownMenuItem disabled={row.original.user_id ===
+                                                useUserStore((state) => state.userId)
+                                            } className="flex items-center gap-2" >
+                                                <Gavel size={10} />
+                                                <span>Kick</span>
+                                            </DropdownMenuItem>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            You can't kick yourself.
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            ) : (
+                                <DropdownMenuItem onClick={() => {
+                                    kickUserFromWorkspace(workspaceId, row.original.user_id).then((res) => {
+                                        if (res) {
+                                            toast.success("User kicked from workspace")
+                                        }
+                                    })
+                                }}>
+                                    <Gavel size={10} />
+                                    <span>Kick</span>
+                                </DropdownMenuItem>
+                            )
+                        }
+
+                    </DropdownMenuContent>
+                </DropdownMenu >
+            )
+        },
     },
 ]

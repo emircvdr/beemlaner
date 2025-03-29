@@ -48,13 +48,26 @@ function AppLayoutComponent() {
 
     return (
         <div className="flex w-screen h-screen overflow-hidden bg-sidebar">
-            <AppSidebar
+            {/* <AppSidebar
                 user={data.user.user.user_metadata as User}
                 workspaces={data.workspace as any}
-                userAvatarOptions={data.userProfilesData.avatar_options}
-            />
+                userAvatarOptions={data.userProfilesData?.avatar_options}
+            /> */}
+            {
+                data.userProfilesData?.avatar_options || data.userProfilesData?.avatar_url ? (
+                    <AppSidebar
+                        user={data.user.user.user_metadata as User}
+                        workspaces={data.workspace as any}
+                        userAvatarOptions={data.userProfilesData?.avatar_options}
+                    />
+                ) : null
+            }
             <SidebarInset>
-                <SiteHeader />
+                {
+                    data.userProfilesData?.avatar_options || data.userProfilesData?.avatar_url ? (
+                        <SiteHeader />
+                    ) : null
+                }
                 <div className='w-full h-full bg-background p-2'>
                     <Outlet />
                 </div>

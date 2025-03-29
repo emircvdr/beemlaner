@@ -53,7 +53,10 @@ function RouteComponent() {
 
   useEffect(() => {
     getWorkspaceUsers(currentWorkspaceId).then((res) => {
-      setMembers(res)
+      setMembers(res.map((user: any) => ({
+        ...user,
+        workspace_id: currentWorkspaceId
+      })))
     })
   }, [])
 
