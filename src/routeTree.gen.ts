@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as pagesRouteImport } from './routes/(pages)/route'
 import { Route as SetupProfileIndexImport } from './routes/setupProfile/index'
+import { Route as CreateWorkspaceIndexImport } from './routes/createWorkspace/index'
 import { Route as pagesProfileIndexImport } from './routes/(pages)/profile/index'
 import { Route as authResetPasswordIndexImport } from './routes/(auth)/reset-password/index'
 import { Route as authRegisterIndexImport } from './routes/(auth)/register/index'
@@ -30,6 +31,12 @@ const pagesRouteRoute = pagesRouteImport.update({
 const SetupProfileIndexRoute = SetupProfileIndexImport.update({
   id: '/setupProfile/',
   path: '/setupProfile/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CreateWorkspaceIndexRoute = CreateWorkspaceIndexImport.update({
+  id: '/createWorkspace/',
+  path: '/createWorkspace/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -78,6 +85,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof pagesRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/createWorkspace/': {
+      id: '/createWorkspace/'
+      path: '/createWorkspace'
+      fullPath: '/createWorkspace'
+      preLoaderRoute: typeof CreateWorkspaceIndexImport
       parentRoute: typeof rootRoute
     }
     '/setupProfile/': {
@@ -152,6 +166,7 @@ const pagesRouteRouteWithChildren = pagesRouteRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '/': typeof pagesRouteRouteWithChildren
+  '/createWorkspace': typeof CreateWorkspaceIndexRoute
   '/setupProfile': typeof SetupProfileIndexRoute
   '/$id': typeof pageshomeIdRoute
   '/workspaces/$id': typeof pagesWorkspacesIdRoute
@@ -163,6 +178,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof pagesRouteRouteWithChildren
+  '/createWorkspace': typeof CreateWorkspaceIndexRoute
   '/setupProfile': typeof SetupProfileIndexRoute
   '/$id': typeof pageshomeIdRoute
   '/workspaces/$id': typeof pagesWorkspacesIdRoute
@@ -175,6 +191,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/(pages)': typeof pagesRouteRouteWithChildren
+  '/createWorkspace/': typeof CreateWorkspaceIndexRoute
   '/setupProfile/': typeof SetupProfileIndexRoute
   '/(pages)/(home)/$id': typeof pageshomeIdRoute
   '/(pages)/workspaces/$id': typeof pagesWorkspacesIdRoute
@@ -188,6 +205,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/createWorkspace'
     | '/setupProfile'
     | '/$id'
     | '/workspaces/$id'
@@ -198,6 +216,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/createWorkspace'
     | '/setupProfile'
     | '/$id'
     | '/workspaces/$id'
@@ -208,6 +227,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/(pages)'
+    | '/createWorkspace/'
     | '/setupProfile/'
     | '/(pages)/(home)/$id'
     | '/(pages)/workspaces/$id'
@@ -220,6 +240,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   pagesRouteRoute: typeof pagesRouteRouteWithChildren
+  CreateWorkspaceIndexRoute: typeof CreateWorkspaceIndexRoute
   SetupProfileIndexRoute: typeof SetupProfileIndexRoute
   authLoginIndexRoute: typeof authLoginIndexRoute
   authRegisterIndexRoute: typeof authRegisterIndexRoute
@@ -228,6 +249,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   pagesRouteRoute: pagesRouteRouteWithChildren,
+  CreateWorkspaceIndexRoute: CreateWorkspaceIndexRoute,
   SetupProfileIndexRoute: SetupProfileIndexRoute,
   authLoginIndexRoute: authLoginIndexRoute,
   authRegisterIndexRoute: authRegisterIndexRoute,
@@ -245,6 +267,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/(pages)",
+        "/createWorkspace/",
         "/setupProfile/",
         "/(auth)/login/",
         "/(auth)/register/",
@@ -258,6 +281,9 @@ export const routeTree = rootRoute
         "/(pages)/workspaces/$id",
         "/(pages)/profile/"
       ]
+    },
+    "/createWorkspace/": {
+      "filePath": "createWorkspace/index.tsx"
     },
     "/setupProfile/": {
       "filePath": "setupProfile/index.tsx"

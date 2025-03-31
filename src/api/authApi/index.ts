@@ -5,17 +5,6 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_ANON_KEY!
 );
 
-const getURL = () => {
-  let url =
-    import.meta.env.VITE_APP_URL ?? // Set this to your site URL in production env.
-    "http://localhost:5173/";
-  // Make sure to include `https://` when not localhost.
-  url = url.startsWith("http") ? url : `https://${url}`;
-  // Make sure to include a trailing `/`.
-  url = url.endsWith("/") ? url : `${url}/`;
-  return url;
-};
-
 export async function Register(form: {
   email: string;
   password: string;
@@ -25,7 +14,7 @@ export async function Register(form: {
     email: form.email,
     password: form.password,
     options: {
-      emailRedirectTo: "http://localhost:5173/",
+      emailRedirectTo: "http://localhost:5173/createWorkspace",
       data: {
         fullname: form.fullname,
       },

@@ -12,6 +12,7 @@ export const Route = createRootRoute({
     ),
     beforeLoad: async ({ location }) => {
         const session = await GetUserSession();
+
         const publicPaths = ['/login', '/reset-password', '/register'];
         if (!session.session && !publicPaths.includes(location.pathname)) {
             throw redirect({

@@ -20,7 +20,7 @@ export default function InfoPage() {
         <div className='flex flex-col gap-2 w-full'>
           <h3 className='text-lg font-medium'>Setup Profile</h3>
           <p className='text-muted-foreground'>Complete your profile information to get started</p>
-          <Button size="lg" className='mt-4 w-full sm:w-auto' onClick={() => navigate({ to: '/setupProfile', })}>
+          <Button size="lg" className='mt-4 w-full sm:w-auto' onClick={() => navigate({ to: '/createWorkspace', })}>
             Let's Complete Profile
           </Button>
         </div>

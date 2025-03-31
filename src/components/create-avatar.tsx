@@ -5,16 +5,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from '@/components/ui/button'
 import { Input } from './ui/input'
 import { testInsert } from '@/api/userApi'
-import { toast } from 'sonner'
 import { useNavigate } from '@tanstack/react-router'
 import { Shuffle } from 'lucide-react'
 
 
 
-export const CreateAvatar = (
-    username: any,
-
-) => {
+export const CreateAvatar = ({ user, setPage, workspaceId }: { user: any, setPage: (page: number) => void, workspaceId: string }) => {
     const [avatarOptions, setAvatarOptions] = useState({
         seed: "Aneka",
         backgroundColor: ["f8f9fa"],
@@ -34,12 +30,12 @@ export const CreateAvatar = (
         radius: 5,
     })
 
-
+    const navigate = useNavigate()
     const avatar = useMemo(() => {
         return createAvatar(notionists, avatarOptions).toDataUri()
     }, [avatarOptions])
 
-
+    const [username, setUsername] = useState<string>("")
 
     const createPreview = (optionType: string, value: string) => {
         return createAvatar(notionists, {
@@ -55,28 +51,20 @@ export const CreateAvatar = (
             [key]: [value]
         }))
     }
-    const navigate = useNavigate()
 
     const handleSave = () => {
-        const form = {
-            id: username.userAllData.id,
-            email: username.userAllData.email,
-            username: username.username,
-            fullname: username.userAllData.identities[0].identity_data.fullname,
-            avatar_options: avatarOptions,
-            is_setup_profile: true,
-        }
-        console.log(form, "form")
         testInsert(
-            form.id,
-            form.fullname,
-            form.email,
-            form.is_setup_profile,
-            form.username,
-            form.avatar_options
+            user.id,
+            user.user_metadata.fullname,
+            user.user_metadata.email,
+            true,
+            username,
+            avatarOptions
         ).then(() => {
-            toast.success('Profile created successfully')
-            navigate({ to: '/' })
+            setPage(3)
+            setTimeout(() => {
+                navigate({ to: '/workspaces/$id', params: { id: workspaceId } })
+            }, 1000)
         })
     }
 
@@ -131,7 +119,7 @@ export const CreateAvatar = (
                         <img src={avatar} alt="avatar" className="w-44 h-44 sm:w-52 sm:h-52" />
                     </div>
                     <div className='flex flex-row gap-2'>
-                        <Input placeholder='Username' className='w-full' disabled value={`@${username.username}`} />
+                        <Input placeholder='Username' className='w-full' value={username} onChange={(e) => setUsername(e.target.value)} />
                         <Button variant="ghost" size="icon" onClick={handleShuffle}>
                             <Shuffle className='size-4' />
                         </Button>
