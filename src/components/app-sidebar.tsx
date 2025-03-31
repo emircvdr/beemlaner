@@ -33,13 +33,13 @@ interface Workspace {
 
 
 
-export function AppSidebar({ user, workspaces, userAvatarOptions }: { user: User, workspaces: Workspace[], userAvatarOptions: any }) {
+export function AppSidebar({ user, workspaces, userAvatarOptions, firstWorkspace, currentWorkspace }: { user: User, workspaces: Workspace[], userAvatarOptions: any, firstWorkspace: string, currentWorkspace: string }) {
     const navigate = useNavigate()
 
     return (
         <Sidebar collapsible="offcanvas" variant="inset">
             <SidebarHeader>
-                <WorkspacesSwitcher workspaces={workspaces} />
+                <WorkspacesSwitcher workspaces={workspaces} firstWorkspace={firstWorkspace} currentWorkspace={currentWorkspace} />
             </SidebarHeader>
             <SidebarContent className="mt-2">
                 <SidebarMenu className="pl-2">
@@ -57,7 +57,7 @@ export function AppSidebar({ user, workspaces, userAvatarOptions }: { user: User
                         <p className="text-xs">Workspaces</p>
                     </SidebarGroupLabel>
                     <SidebarMenu>
-                        <SidebarMenuButton className="" onClick={() => navigate({ to: '/' })}>
+                        <SidebarMenuButton className="" onClick={() => navigate({ to: '/$id', params: { id: currentWorkspace } })}>
                             <LayoutDashboardIcon className="size-4!" />
                             <p className="text-xs">Dashboard</p>
                         </SidebarMenuButton>

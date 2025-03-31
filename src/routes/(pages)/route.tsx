@@ -5,7 +5,8 @@ import { AppSidebar } from '@/components/app-sidebar'
 import { SiteHeader } from '@/components/site-header'
 import { SidebarInset } from '@/components/ui/sidebar'
 import { useUserAllDataStore, useUserStore, useWorkspaceStore } from "@/store/store"
-import { Outlet, createFileRoute, } from '@tanstack/react-router'
+import { Outlet, createFileRoute, redirect, useNavigate, useParams } from '@tanstack/react-router'
+import { useEffect } from 'react'
 interface User {
     fullname: string
     email: string
@@ -31,9 +32,12 @@ export const Route = createFileRoute('/(pages)')({
 
 function AppLayoutComponent() {
     const data = Route.useLoaderData()
+    const { id } = Route.useParams() as { id: string }
+    const navigate = useNavigate()
     const setUserId = useUserStore(state => state.setUserId)
     const setWorkspaces = useWorkspaceStore(state => state.setWorkspaces)
     const setUserAlldata = useUserAllDataStore(state => state.setUserAlldata)
+    const firstWorkspace = data.workspace.find((x: any) => x.admin_id === data.user.user.id)?.workplace_uuid
 
     if (data.user?.user?.id) {
         setUserId(data.user.user.id)
@@ -45,20 +49,28 @@ function AppLayoutComponent() {
         sync_user_profiles()
     }
 
+    useEffect(() => {
+        if (firstWorkspace && (location.pathname == '/undefined' || location.pathname == '')) {
+            navigate({
+                to: '/$id',
+                params: { id: firstWorkspace }
+            }).then(() => {
+                window.location.reload()
+            })
+        }
+    }, [])
+
 
     return (
         <div className="flex w-screen h-screen overflow-hidden bg-sidebar">
-            {/* <AppSidebar
-                user={data.user.user.user_metadata as User}
-                workspaces={data.workspace as any}
-                userAvatarOptions={data.userProfilesData?.avatar_options}
-            /> */}
             {
                 data.userProfilesData?.avatar_options || data.userProfilesData?.avatar_url ? (
                     <AppSidebar
                         user={data.user.user.user_metadata as User}
                         workspaces={data.workspace as any}
                         userAvatarOptions={data.userProfilesData?.avatar_options}
+                        firstWorkspace={firstWorkspace}
+                        currentWorkspace={id}
                     />
                 ) : null
             }

@@ -5,7 +5,7 @@ import { Bell, Check, X } from "lucide-react"
 import { DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { DropdownMenu, DropdownMenuContent } from "./ui/dropdown-menu"
 import { Button } from "./ui/button"
-import { acceptInvite, getWorkspaceInvites } from "@/api/inviteApi"
+import { acceptInvite, getWorkspaceInvites, rejectInvite } from "@/api/inviteApi"
 import { useState } from "react"
 import { useEffect } from "react"
 import { useUserStore } from "@/store/store"
@@ -33,6 +33,12 @@ export function SiteHeader() {
 
         });
     }
+
+    const handleRejectInvite = (invite_id: string) => {
+        rejectInvite(invite_id).then(() => {
+            toast.success("Invite rejected")
+        });
+    }
     return (
         <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-12 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">
             <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
@@ -54,24 +60,31 @@ export function SiteHeader() {
                                 </div>
 
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-full">
+                            <DropdownMenuContent className="w-60 h-60" align="end">
                                 <DropdownMenuLabel>Notifications</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <div className="flex flex-col gap-2">
                                     {
-                                        invites.map((invite) => (
-                                            <div className="w-full border rounded-md p-2 flex flex-row justify-between items-center gap-2">
-                                                <p className="text-xs"><span className="font-bold">{invite.name || invite.fullname}</span> invite you to join the workspace <span className="font-bold">{invite.workspace_name}</span></p>
-                                                <div className="flex flex-row gap-1">
-                                                    <Button variant="ghost" size="icon" className=" w-6! h-6! text-green-500 bg-green-50!" onClick={() => handleAcceptInvite(invite.id, invite.workspace_id, userId)}>
-                                                        <Check className="size-3" />
-                                                    </Button>
-                                                    <Button variant="ghost" size="icon" className=" w-6! h-6! text-red-500 bg-red-50!">
-                                                        <X className="size-3" />
-                                                    </Button>
+                                        invites.length > 0 ? (
+                                            invites.map((invite) => (
+                                                <div className="w-full border rounded-md p-2 flex flex-row justify-between items-center gap-2">
+                                                    <p className="text-xs"><span className="font-bold">{invite.name || invite.fullname}</span> invite you to join the workspace <span className="font-bold">{invite.workspace_name}</span></p>
+                                                    <div className="flex flex-row gap-1">
+                                                        <Button variant="ghost" size="icon" className=" w-6! h-6! text-green-500 bg-green-50!" onClick={() => handleAcceptInvite(invite.id, invite.workspace_id, userId)}>
+                                                            <Check className="size-3" />
+                                                        </Button>
+                                                        <Button variant="ghost" size="icon" className=" w-6! h-6! text-red-500 bg-red-50!" onClick={() => handleRejectInvite(invite.id)}>
+                                                            <X className="size-3" />
+                                                        </Button>
+                                                    </div>
                                                 </div>
+                                            ))
+                                        ) : (
+                                            <div className="w-full flex items-center justify-center">
+                                                <p className="text-md text-muted-foreground">No notifications</p>
                                             </div>
-                                        ))
+                                        )
+
                                     }
 
                                 </div>

@@ -56,3 +56,14 @@ export const acceptInvite = async (invite_id: string) => {
   }
   return data;
 };
+
+export const rejectInvite = async (invite_id: string) => {
+  const { data, error } = await supabase
+    .from("workspace_invites")
+    .delete()
+    .eq("id", invite_id);
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};

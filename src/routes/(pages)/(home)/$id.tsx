@@ -1,15 +1,15 @@
 
 import { Chart } from '@/components/chart'
 import InfoPage from '@/components/infoPage'
-import { get_is_setup_profile_info_by_userID } from '@/api/workspaceApi'
+import { get_is_setup_profile_info_by_userID, getWorkspaceUserById } from '@/api/workspaceApi'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { createFileRoute } from '@tanstack/react-router'
 import { FolderIcon, ListIcon, TrendingDownIcon, TrendingUpIcon, UsersIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { useUserStore } from '@/store/store'
+import { useUserStore, useWorkspaceStore } from '@/store/store'
 
-export const Route = createFileRoute('/(pages)/')({
+export const Route = createFileRoute('/(pages)/(home)/$id')({
     component: Index,
 })
 
@@ -69,6 +69,7 @@ const cards: Record<string, Card> = {
 
 function Index() {
     const userId = useUserStore(state => state.userId)
+    const workspace = useWorkspaceStore(state => state.workspaces)
     const [isSetupProfile, setIsSetupProfile] = useState<boolean | undefined>(undefined)
 
     useEffect(() => {

@@ -158,13 +158,13 @@ function RouteComponent() {
                             <Separator orientation="horizontal" className="flex-1" />
                         </div>
                         <div className='flex justify-evenly w-full p-2'>
-                            <Button variant="ghost" size="icon" className="p-2 w-16 h-10 border" onClick={handleLogInWithGoogle}>
+                            <Button variant="ghost" size="icon" className="p-2 w-16 h-10 border bg-black/20 dark:bg-transparent" onClick={handleLogInWithGoogle}>
                                 <img src={GoogleIcon} alt="Google" className="w-6 h-6" />
                             </Button>
-                            <Button variant="ghost" size="icon" className="p-2 w-16 h-10 border" onClick={handleLogInWithGithub}>
+                            <Button variant="ghost" size="icon" className="p-2 w-16 h-10 border bg-black/20 dark:bg-transparent" onClick={handleLogInWithGithub}>
                                 <Github size={20} />
                             </Button>
-                            <Button variant="ghost" size="icon" className="p-2 w-16 h-10 border">
+                            <Button variant="ghost" size="icon" className="p-2 w-16 h-10 border bg-black/20 dark:bg-transparent">
                                 <img src={AppleIcon} alt="Apple" className="w-6 h-6" />
                             </Button>
                         </div>

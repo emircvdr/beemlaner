@@ -111,7 +111,7 @@ export async function signInWithGithub() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
     options: {
-      redirectTo: getURL(),
+      redirectTo: "http://localhost:5173/$id",
     },
   });
 

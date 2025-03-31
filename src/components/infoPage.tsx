@@ -8,7 +8,7 @@ export default function InfoPage() {
   const navigate = useNavigate()
 
   return <div className='w-full h-full bg-background p-6 mt-2 flex flex-col items-center justify-center'>
-    < PartyPopper className='size-10 mb-4' />
+    <PartyPopper className='size-10 mb-4' />
     <p className='text-xl  mb-12 text-center'>Before you start, let's setup your profile and create your first workspace</p>
 
     <div className='w-full max-w-3xl flex flex-col gap-8'>
@@ -32,9 +32,9 @@ export default function InfoPage() {
         <div className='flex flex-col gap-2 w-full'>
           <h3 className='text-lg font-medium text-muted-foreground'>Create Workspace</h3>
           <p className='text-muted-foreground'>Set up your first workspace and start collaborating</p>
-          <Button size="lg" variant="outline" className='mt-4 w-full sm:w-auto' disabled>
-            Create Workspace
-          </Button>
+          <p className='text-muted-foreground'>
+            Please click the top left button to create your first workspace
+          </p>
         </div>
       </div>
     </div>

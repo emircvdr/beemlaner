@@ -43,7 +43,7 @@ function RouteComponent() {
 
     return (
         <div className='w-full  flex items-center justify-center'>
-            <Card className="w-full max-w-[450px] h-auto border-none shadow-none">
+            <Card className="w-full max-w-[450px] h-auto py-5 border-none shadow-lg">
                 <CardHeader>
                     <img src={AppLogo} alt="App Logo" className="w-15 h-15 mx-auto mb-5  " />
                     <CardTitle className="text-center text-2xl font-newCustom">Join Us Today!</CardTitle>

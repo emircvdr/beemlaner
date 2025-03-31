@@ -13,12 +13,12 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as pagesRouteImport } from './routes/(pages)/route'
 import { Route as SetupProfileIndexImport } from './routes/setupProfile/index'
-import { Route as pagesIndexImport } from './routes/(pages)/index'
 import { Route as pagesProfileIndexImport } from './routes/(pages)/profile/index'
 import { Route as authResetPasswordIndexImport } from './routes/(auth)/reset-password/index'
 import { Route as authRegisterIndexImport } from './routes/(auth)/register/index'
 import { Route as authLoginIndexImport } from './routes/(auth)/login/index'
 import { Route as pagesWorkspacesIdImport } from './routes/(pages)/workspaces/$id'
+import { Route as pageshomeIdImport } from './routes/(pages)/(home)/$id'
 
 // Create/Update Routes
 
@@ -31,12 +31,6 @@ const SetupProfileIndexRoute = SetupProfileIndexImport.update({
   id: '/setupProfile/',
   path: '/setupProfile/',
   getParentRoute: () => rootRoute,
-} as any)
-
-const pagesIndexRoute = pagesIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => pagesRouteRoute,
 } as any)
 
 const pagesProfileIndexRoute = pagesProfileIndexImport.update({
@@ -69,6 +63,12 @@ const pagesWorkspacesIdRoute = pagesWorkspacesIdImport.update({
   getParentRoute: () => pagesRouteRoute,
 } as any)
 
+const pageshomeIdRoute = pageshomeIdImport.update({
+  id: '/(home)/$id',
+  path: '/$id',
+  getParentRoute: () => pagesRouteRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -80,19 +80,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof pagesRouteImport
       parentRoute: typeof rootRoute
     }
-    '/(pages)/': {
-      id: '/(pages)/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof pagesIndexImport
-      parentRoute: typeof pagesRouteImport
-    }
     '/setupProfile/': {
       id: '/setupProfile/'
       path: '/setupProfile'
       fullPath: '/setupProfile'
       preLoaderRoute: typeof SetupProfileIndexImport
       parentRoute: typeof rootRoute
+    }
+    '/(pages)/(home)/$id': {
+      id: '/(pages)/(home)/$id'
+      path: '/$id'
+      fullPath: '/$id'
+      preLoaderRoute: typeof pageshomeIdImport
+      parentRoute: typeof pagesRouteImport
     }
     '/(pages)/workspaces/$id': {
       id: '/(pages)/workspaces/$id'
@@ -135,13 +135,13 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface pagesRouteRouteChildren {
-  pagesIndexRoute: typeof pagesIndexRoute
+  pageshomeIdRoute: typeof pageshomeIdRoute
   pagesWorkspacesIdRoute: typeof pagesWorkspacesIdRoute
   pagesProfileIndexRoute: typeof pagesProfileIndexRoute
 }
 
 const pagesRouteRouteChildren: pagesRouteRouteChildren = {
-  pagesIndexRoute: pagesIndexRoute,
+  pageshomeIdRoute: pageshomeIdRoute,
   pagesWorkspacesIdRoute: pagesWorkspacesIdRoute,
   pagesProfileIndexRoute: pagesProfileIndexRoute,
 }
@@ -151,8 +151,9 @@ const pagesRouteRouteWithChildren = pagesRouteRoute._addFileChildren(
 )
 
 export interface FileRoutesByFullPath {
-  '/': typeof pagesIndexRoute
+  '/': typeof pagesRouteRouteWithChildren
   '/setupProfile': typeof SetupProfileIndexRoute
+  '/$id': typeof pageshomeIdRoute
   '/workspaces/$id': typeof pagesWorkspacesIdRoute
   '/login': typeof authLoginIndexRoute
   '/register': typeof authRegisterIndexRoute
@@ -161,8 +162,9 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
-  '/': typeof pagesIndexRoute
+  '/': typeof pagesRouteRouteWithChildren
   '/setupProfile': typeof SetupProfileIndexRoute
+  '/$id': typeof pageshomeIdRoute
   '/workspaces/$id': typeof pagesWorkspacesIdRoute
   '/login': typeof authLoginIndexRoute
   '/register': typeof authRegisterIndexRoute
@@ -173,8 +175,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/(pages)': typeof pagesRouteRouteWithChildren
-  '/(pages)/': typeof pagesIndexRoute
   '/setupProfile/': typeof SetupProfileIndexRoute
+  '/(pages)/(home)/$id': typeof pageshomeIdRoute
   '/(pages)/workspaces/$id': typeof pagesWorkspacesIdRoute
   '/(auth)/login/': typeof authLoginIndexRoute
   '/(auth)/register/': typeof authRegisterIndexRoute
@@ -187,6 +189,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/setupProfile'
+    | '/$id'
     | '/workspaces/$id'
     | '/login'
     | '/register'
@@ -196,6 +199,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/setupProfile'
+    | '/$id'
     | '/workspaces/$id'
     | '/login'
     | '/register'
@@ -204,8 +208,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/(pages)'
-    | '/(pages)/'
     | '/setupProfile/'
+    | '/(pages)/(home)/$id'
     | '/(pages)/workspaces/$id'
     | '/(auth)/login/'
     | '/(auth)/register/'
@@ -250,17 +254,17 @@ export const routeTree = rootRoute
     "/(pages)": {
       "filePath": "(pages)/route.tsx",
       "children": [
-        "/(pages)/",
+        "/(pages)/(home)/$id",
         "/(pages)/workspaces/$id",
         "/(pages)/profile/"
       ]
     },
-    "/(pages)/": {
-      "filePath": "(pages)/index.tsx",
-      "parent": "/(pages)"
-    },
     "/setupProfile/": {
       "filePath": "setupProfile/index.tsx"
+    },
+    "/(pages)/(home)/$id": {
+      "filePath": "(pages)/(home)/$id.tsx",
+      "parent": "/(pages)"
     },
     "/(pages)/workspaces/$id": {
       "filePath": "(pages)/workspaces/$id.tsx",

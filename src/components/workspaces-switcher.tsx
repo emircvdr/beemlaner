@@ -18,13 +18,15 @@ import {
     useSidebar,
 } from "@/components/ui/sidebar"
 import { WorkspaceCreateDialog } from "./workspaceCreateDialog"
-import { useNavigate } from "@tanstack/react-router"
+import { useNavigate, } from "@tanstack/react-router"
 import { useUserStore } from "@/store/store"
 import { Badge } from "./ui/badge"
 
 
 export function WorkspacesSwitcher({
     workspaces,
+    firstWorkspace,
+    currentWorkspace
 }: {
     workspaces: {
         workplace_uuid: string
@@ -34,11 +36,13 @@ export function WorkspacesSwitcher({
         plan: string
         admin_id: string
     }[]
+    firstWorkspace: string
+    currentWorkspace: string
 }) {
     const userId = useUserStore((state) => state.userId || "")
     const navigate = useNavigate()
     const { isMobile } = useSidebar()
-    const [activeWorkspace, setActiveWorkspace] = React.useState(workspaces.length > 0 ? workspaces[0] : null)
+    const [activeWorkspace, setActiveWorkspace] = React.useState(currentWorkspace ? currentWorkspace : firstWorkspace || "")
 
     const getIconComponent = (iconName: string) => {
         return LucideIcons[iconName as keyof typeof LucideIcons] || LucideIcons.FileIcon
@@ -57,15 +61,17 @@ export function WorkspacesSwitcher({
                                 <>
                                     <div
                                         className="flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground"
-                                        style={{ backgroundColor: activeWorkspace.color }}
+                                        style={{ backgroundColor: workspaces.find((workspace) => workspace.workplace_uuid === activeWorkspace)?.color }}
                                     >
-                                        {React.createElement(getIconComponent(activeWorkspace.icon) as React.ElementType, { className: 'size-4' })}
+                                        {React.createElement(getIconComponent(workspaces.find((workspace) => workspace.workplace_uuid === activeWorkspace)?.icon as string) as React.ElementType, { className: 'size-4' })}
                                     </div>
                                     <div className="grid flex-1 text-left text-sm leading-tight">
                                         <span className="truncate font-semibold">
-                                            {activeWorkspace.name}
+                                            {
+                                                workspaces.find((workspace) => workspace.workplace_uuid === activeWorkspace)?.name
+                                            }
                                         </span>
-                                        <span className="truncate text-xs text-muted-foreground capitalize ">{activeWorkspace.plan}</span>
+                                        <span className="truncate text-xs text-muted-foreground capitalize ">{workspaces.find((workspace) => workspace.workplace_uuid === activeWorkspace)?.plan}</span>
                                     </div>
                                 </>
                             ) : (
@@ -86,11 +92,19 @@ export function WorkspacesSwitcher({
                         <DropdownMenuLabel className="text-xs text-muted-foreground">
                             Workspaces
                         </DropdownMenuLabel>
-                        {workspaces.length > 0 ? (
+                        {workspaces.length > 0 || activeWorkspace.length > 0 || firstWorkspace.length > 0 || currentWorkspace.length > 0 ? (
                             workspaces.map((workspace, index) => (
                                 <DropdownMenuItem
                                     key={workspace.name}
-                                    onClick={() => setActiveWorkspace(workspace)}
+                                    onClick={() => {
+                                        setActiveWorkspace(workspace.workplace_uuid)
+                                        navigate({
+                                            to: "/$id",
+                                            params: {
+                                                id: workspace.workplace_uuid
+                                            }
+                                        })
+                                    }}
                                     className="gap-2 p-2"
                                 >
                                     <div
@@ -118,14 +132,14 @@ export function WorkspacesSwitcher({
                                 <div className="font-medium text-muted-foreground">Add workspace</div>
                             } />
                         </DropdownMenuItem>
-                        {activeWorkspace && userId === activeWorkspace.admin_id && (
+                        {activeWorkspace && userId === workspaces.find((workspace) => workspace.workplace_uuid === activeWorkspace)?.admin_id && (
                             <DropdownMenuItem
                                 className="gap-2 p-2"
                                 onSelect={() =>
                                     navigate({
                                         to: "/workspaces/$id",
                                         params: {
-                                            id: activeWorkspace.workplace_uuid
+                                            id: currentWorkspace
                                         }
                                     })
                                 }
