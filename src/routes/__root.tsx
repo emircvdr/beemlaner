@@ -20,7 +20,10 @@ export const Route = createRootRoute({
             });
         } else if (session.session && (location.pathname == '/login' || location.pathname == '/register' || location.pathname == '/reset-password')) {
             throw redirect({
-                to: '/',
+                to: '/$id',
+                params: {
+                    id: "",
+                },
             });
         }
     },

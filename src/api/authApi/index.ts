@@ -114,9 +114,6 @@ export async function signInWithGithub() {
 export async function signInWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
-    options: {
-      redirectTo: `https://mitlqqqzqndszteylyeg.supabase.co/auth/v1/callback`,
-    },
   });
 
   if (error) {
