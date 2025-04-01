@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeft, ArrowRight, AudioWaveform, Command, GalleryVerticalEnd, Loader2, Network } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { CreateAvatar } from '@/components/create-avatar'
@@ -15,6 +15,7 @@ export const Route = createFileRoute('/createWorkspace/')({
 })
 
 function RouteComponent() {
+  const navigate = useNavigate()
   const [name, setName] = useState('')
   const [icon, setIcon] = useState('GalleryVerticalEnd')
   const [color, setColor] = useState('#8338ec')
@@ -33,7 +34,6 @@ function RouteComponent() {
   }, [])
 
   const handleSubmit = () => {
-    setPage(2)
     createWorkspace({
       name: name,
       icon: icon,
@@ -42,7 +42,18 @@ function RouteComponent() {
     }).then((res) => {
       createWorkspaceUser(res[0].id, user.id, "Admin")
       setWorkspaceId(res[0].id)
+      if (user.app_metadata.provider == "email") {
+        setPage(2)
+      } else {
+        setPage(3)
+        setTimeout(() => {
+          navigate({ to: '/$id', params: { id: res[0].id } }).then(() => {
+            window.location.reload()
+          })
+        }, 1000)
+      }
     })
+
   }
 
   return (
@@ -53,7 +64,7 @@ function RouteComponent() {
             <div className='flex flex-col items-center justify-center gap-4'>
               <img src={Logo} alt="Logo" className='w-10 h-10' />
               <p>
-                Hellooo <span className='font-bold'>{user?.user_metadata.fullname}</span>
+                Hellooo <span className='font-bold'>{user?.user_metadata.fullname || user?.user_metadata.full_name}</span>
               </p>
               <p className='text-sm text-muted-foreground'>Are you ready to complete your tutorial?</p>
               <Button variant="ghost" onClick={() => setPage(1)}>
@@ -154,8 +165,6 @@ function RouteComponent() {
                 <Loader2 className='h-10 w-10 animate-spin' />
               </div>
             </div>
-            <Button variant="ghost" onClick={() => setPage(2)}></Button>
-
           </div>
         )
       }

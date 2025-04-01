@@ -1,5 +1,5 @@
 import { GetUser } from '@/api/authApi'
-import { getUserProfile } from '@/api/userApi'
+import { getUserProfile, updateUserProfile } from '@/api/userApi'
 import { getWorkspaceUserById, sync_user_profiles } from '@/api/workspaceApi'
 import { AppSidebar } from '@/components/app-sidebar'
 import { SiteHeader } from '@/components/site-header'
@@ -46,11 +46,13 @@ function AppLayoutComponent() {
     }
 
     if (data.user.user.confirmed_at != null && data.user.user.app_metadata.provider != 'email') {
-        sync_user_profiles()
+        updateUserProfile(data.user.user.id, true).then(() => {
+            sync_user_profiles()
+        })
     }
 
     useEffect(() => {
-        if (firstWorkspace && (location.pathname == '/undefined' || location.pathname == '')) {
+        if (firstWorkspace && (location.pathname == '/undefined' || location.pathname == '/' || location.pathname == '/undefined#')) {
             navigate({
                 to: '/$id',
                 params: { id: firstWorkspace }
@@ -63,23 +65,15 @@ function AppLayoutComponent() {
 
     return (
         <div className="flex w-screen h-screen overflow-hidden bg-sidebar">
-            {
-                data.userProfilesData?.avatar_options || data.userProfilesData?.avatar_url ? (
-                    <AppSidebar
-                        user={data.user.user.user_metadata as User}
-                        workspaces={data.workspace as any}
-                        userAvatarOptions={data.userProfilesData?.avatar_options}
-                        firstWorkspace={firstWorkspace}
-                        currentWorkspace={id}
-                    />
-                ) : null
-            }
+            <AppSidebar
+                user={data.user.user.user_metadata as User}
+                workspaces={data.workspace as any}
+                userAvatarOptions={data.userProfilesData?.avatar_options}
+                firstWorkspace={firstWorkspace}
+                currentWorkspace={id}
+            />
             <SidebarInset>
-                {
-                    data.userProfilesData?.avatar_options || data.userProfilesData?.avatar_url ? (
-                        <SiteHeader />
-                    ) : null
-                }
+                <SiteHeader />
                 <div className='w-full h-full bg-background p-2'>
                     <Outlet />
                 </div>

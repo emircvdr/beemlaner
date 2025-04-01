@@ -48,3 +48,19 @@ export const getUserProfile = async (id: string) => {
   }
   return data;
 };
+
+export const updateUserProfile = async (
+  id: string,
+  is_setup_profile: boolean
+) => {
+  const { data, error } = await supabase
+    .from("user_profiles")
+    .update({
+      is_setup_profile: is_setup_profile,
+    })
+    .eq("id", id);
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};
