@@ -4,7 +4,7 @@ import {
     ChevronsUpDown,
     CreditCard,
     LogOut,
-    Sparkles,
+    WandSparkles,
 } from "lucide-react"
 
 
@@ -128,8 +128,10 @@ export function NavUser({ user, userAvatarOptions }: { user: User; userAvatarOpt
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuGroup>
-                                <DropdownMenuItem>
-                                    <Sparkles />
+                                <DropdownMenuItem
+                                    className="text-black cursor-pointer  rounded-2xl shadow-lg bg-gradient-to-r from-pink-200 via-blue-200 to-purple-300 border border-white/50 backdrop-blur-md"
+                                >
+                                    <WandSparkles className="size-4 text-black" />
                                     Upgrade to Pro
                                 </DropdownMenuItem>
                             </DropdownMenuGroup>

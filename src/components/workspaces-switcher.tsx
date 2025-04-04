@@ -54,24 +54,24 @@ export function WorkspacesSwitcher({
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton
-                            size="lg"
+                            size="sm"
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                         >
                             {activeWorkspace ? (
                                 <>
                                     <div
-                                        className="flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground"
+                                        className="flex aspect-square size-6.5 items-center justify-center rounded-md text-sidebar-primary-foreground"
                                         style={{ backgroundColor: workspaces.find((workspace) => workspace.workplace_uuid === activeWorkspace)?.color }}
                                     >
-                                        {React.createElement(getIconComponent(workspaces.find((workspace) => workspace.workplace_uuid === activeWorkspace)?.icon as string) as React.ElementType, { className: 'size-4' })}
+                                        {React.createElement(getIconComponent(workspaces.find((workspace) => workspace.workplace_uuid === activeWorkspace)?.icon as string) as React.ElementType, { className: 'size-3.5' })}
                                     </div>
-                                    <div className="grid flex-1 text-left text-sm leading-tight">
+                                    <div className="grid flex-1 text-left text-xs leading-tight">
                                         <span className="truncate font-semibold">
                                             {
                                                 workspaces.find((workspace) => workspace.workplace_uuid === activeWorkspace)?.name
                                             }
                                         </span>
-                                        <span className="truncate text-xs text-muted-foreground capitalize ">{workspaces.find((workspace) => workspace.workplace_uuid === activeWorkspace)?.plan}</span>
+                                        <span className="truncate text-[10px] text-muted-foreground capitalize ">{workspaces.find((workspace) => workspace.workplace_uuid === activeWorkspace)?.plan}</span>
                                     </div>
                                 </>
                             ) : (
@@ -90,7 +90,7 @@ export function WorkspacesSwitcher({
                         sideOffset={4}
                     >
                         <DropdownMenuLabel className="text-xs text-muted-foreground">
-                            Workspaces
+                            Workspace
                         </DropdownMenuLabel>
                         {workspaces.length > 0 || activeWorkspace.length > 0 || firstWorkspace.length > 0 || currentWorkspace.length > 0 ? (
                             workspaces.map((workspace, index) => (
@@ -108,10 +108,10 @@ export function WorkspacesSwitcher({
                                     className="gap-2 p-2"
                                 >
                                     <div
-                                        className="flex size-6 items-center justify-center rounded-sm border"
+                                        className="flex size-5.5 items-center justify-center rounded-sm border"
                                         style={{ backgroundColor: workspace.color }}
                                     >
-                                        {React.createElement(getIconComponent(workspace.icon) as React.ElementType, { className: 'size-4 text-white' })}
+                                        {React.createElement(getIconComponent(workspace.icon) as React.ElementType, { className: 'size-3 text-white' })}
                                     </div>
                                     {workspace.name} {userId === workspace.admin_id && <Badge variant="outline"><LucideIcons.Crown className="size-4 text-amber-500/80 dark:text-amber-500/80" /></Badge>}
                                     <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>

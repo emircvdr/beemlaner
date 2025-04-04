@@ -1,4 +1,4 @@
-import { Sparkles } from "lucide-react"
+import { WandSparkles } from "lucide-react"
 import { Button } from "./ui/button"
 
 export const UpgradeButton = () => {
@@ -6,11 +6,11 @@ export const UpgradeButton = () => {
         <Button
             variant="outline"
             size="default"
-            className=" bg-gradient-to-r from-purple-500 via-purple-600 to-indigo-600 hover:from-purple-600 hover:via-purple-700 hover:to-indigo-700 text-white! border-none shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2 px-4 py-2"
+            className="text-black  rounded-2xl shadow-lg bg-gradient-to-r from-pink-200 via-blue-200 to-purple-300 border border-white/50 backdrop-blur-md"
         >
-            <Sparkles className="h-4 w-4 text-yellow-300" />
+            <WandSparkles className="size-4 text-black" />
             <span className="text-xs">
-                Upgrade ?
+                Upgrade
             </span>
         </Button>
     )
